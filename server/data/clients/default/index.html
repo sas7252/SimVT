@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>DefaultClient (WSTest)</title>
+    <style>
+        * {
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .console {
+            min-height: 300px;
+            width: 100%;
+            background-color: #000;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 5px;
+        }
+        .w100 {
+            width: 60%;
+        }
+        .console > p {
+            font-family: 'Courier New', Courier, monospace;
+            color: white;
+            padding: 0px;
+            margin: 0px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Default Client</h2>
+    <p>This is the default client. Use it to test the websockets communication.</p>
+    <hr>
+    <fieldset>
+        <legend>Connection Setup</legend>
+        Server Address 
+        <input id="uiTextfield_serverAddress" size="40" value="ws://localhost:8081"> 
+        <button id="uiButton_connect">Connect</button>
+        <span id="uiTextlabel_status"></span>
+        <button id="uiButton_disconnect" disabled>Disconnect</button>    
+    </fieldset>
+    <fieldset>
+        <legend>Communication</legend>
+        <div id="uiTextview_console" class="console"></div>
+        Message 
+        <input id="uiTextfield_message" class="w100"></input>
+        <button id="uiButton_sendMessage" disabled>Send</button>
+    </fieldset>
+    <script src="client.js"></script>
+</body>
+</html>
