@@ -1,5 +1,6 @@
 
     const {app} = require('electron');
+    const appController = require('./appController');
     const appInfo = require('./app.properties.json');
     
     //Overwrite default log-function
@@ -18,7 +19,7 @@
         if (!didLaunch && ready) {
             ready = false;
             console.log("Launching " + appInfo.productName + " " + appInfo.productVersionString);
-            //appController.initWithProperties(appInfo);
+            appController.initWithProperties(appInfo);
             didLaunch = true;
             ready = true;
         }
