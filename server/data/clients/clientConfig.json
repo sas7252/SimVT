@@ -1,0 +1,11 @@
+{
+    "appTitle": "DriveMe",
+    "rtDriverProfile": {
+        "shortname": "sschmidt",
+        "fullname": "Sarah Schmidt",
+        "pictureUrl": "/image.png",
+        "age": 26,
+        "experience": "6 Jahre",
+        "hobbies": "nix"
+    }
+}
