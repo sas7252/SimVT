@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html manifest="/caw2che.manifest">
+<html manifest="/cache.manifest">
 
 <head>
     <title>DriveMe</title>
@@ -14,13 +14,20 @@
     <script type="text/javascript" src="./resources/javascript/app.js"></script>
 
     <!-- Apple Safari/WebKit Application -->
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="DriveMe">
-    <link rel="apple-touch-icon" href="./resources/ios_icon.png">
+    <link rel="apple-touch-icon" href="./resources/appicon.png">
 
+    <!-- Andoid WebApp / PWA  -->
+    <link rel="manifest" href="./andoid-pwa.webmanifest">
+    <link rel="shortcut icon" href="./resources/appicon.png" sizes="196x196">
+
+    <!-- Viewport Setup -->
     <meta name="viewport" content="width=device-width, initial-scale=0.35, user-scalable=0">
 </head>
+
 <body class="app">
 
     <!-- Panel Holder -->
@@ -32,7 +39,7 @@
                 <img class="right not-impl" src="../shared/assets/images/profile.svg" height="95px" />
             </div>
             <div class="content">
-                <h1 class="tb">Willkommen zurück!</h1>
+                <h1 class="tb">Willkommen</h1>
                 <button id="newRide" class="button big gradient90 clickable icon mbL" onclick="app.nextPanel();">
                     <img class="left" src="../shared/assets/images/new_ride.svg" height="150px">Neue Fahrt</button>
                 <div id="ui_bookedTrip">
@@ -139,19 +146,17 @@
                 <p class="text mbXM mt0">Erwartete Ankunft: <span class="big tb light">12:35 h</span></p>
                 <div class="row flex mbXM">
                     <p class="text mb0 mt0 left w75">Geschätzter Preis: <span class="big tb light">20 €*</span></p>
-                    <div class="cflex"><img class="mrXS" src="../shared/assets/images/info.svg" height="50px" /><span
-                            class="small text tg">Genauer Preis basiert auf Startpunkt zur Startzeit.</span></div>
+                    <div class="cflex"><img class="mrXS" src="../shared/assets/images/info.svg" height="50px" /><span class="small text tg">Genauer Preis basiert auf Startpunkt zur Startzeit.</span></div>
                 </div>
                 <div class="row mbM flex">
                     <p class="text mb0 mt0 left w75">Verfügbare Startzeit: <span class="big to light">12:15 h*</span>
                     </p>
-                    <div class="cflex"><img class="mrXS" src="../shared/assets/images/info.svg" height="50px" /><span
-                            class="small text tg">Basierend auf Fahrerverfügbarkeit.</span></div>
+                    <div class="cflex"><img class="mrXS" src="../shared/assets/images/info.svg" height="50px" /><span class="small text tg">Basierend auf Fahrerverfügbarkeit.</span></div>
                 </div>
                 <div class="row flex">
-                    <button id="letsgo" class="button small icon green clickable fg1"  onclick="app.nextPanel();"><img class="left"
+                    <button id="letsgo" class="button small icon green clickable fg1" onclick="app.nextPanel();"><img class="left"
                             src="../shared/assets/images/check.svg" height="100px">Los geht's</button>
-                    <button class="button small medium quad clickable not-impl mlXS fg0"  onclick="app.showPanel('pid_mapp_s3_main');"><img class="left"
+                    <button class="button small medium quad clickable not-impl mlXS fg0" onclick="app.showPanel('pid_mapp_s3_main');"><img class="left"
                             src="../shared/assets/images/no.svg" onlick="startApp" height="100px"></button>
                 </div>
             </div>
@@ -164,10 +169,10 @@
             <div class="content">
                 <h1 class="tb">Danke!</h1>
                 <div class="not-clickable grey row cflex flex box not-impl mbXM">
-                    <img src="../shared/assets/images/Luca.png" class="left driver_img" height="225px">
-                    <h3 class="driver_full">Luca Franco</h3>
+                    <img src="../shared/assets/images/Luca.png" class="ui_driverPicture left driver_img" height="225px">
+                    <h3 class="driver_full ui_driverFullname">Luca Franco</h3>
                 </div>
-                <p class="text mbL"><span class="driver">Luca</span> wird um 12:15 h übernehmen.</p>
+                <p class="text mbL"><span class="driver ui_driverShortname">Luca</span> wird um 12:15 h übernehmen.</p>
                 <button id="goon" class="button mtXL clickable block center-me quad primary"><img class="left"
                         src="../shared/assets/images/arrow_right.svg" height="100px" /></button>
             </div>
