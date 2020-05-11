@@ -1,7 +1,6 @@
 app.bookedTrip = {
     toa: null,
     tos: null,
-    date: this.getFormattedDate,
     price: '20 €',
     available: false
 }
@@ -38,6 +37,7 @@ app.beforeLeavingPanel = function(leavingPanelId) {
             this.stopBookingEstimationsUpdater();
             break;
         case 'pid_mapp_s3_booking_confirmation':
+            this.bookedTrip.available = true;
             //$('.ui_bookedTrip_time').html(this.bookedTrip_tos); //Update takeover time from confirm screen into this confirmation
             break;
         default:
@@ -75,9 +75,9 @@ app.stopBookingEstimationsUpdater = function() {
 }
 
 app.addBookedTripToMainPanel = function() {
-    $('.ui_bookedTrip_date').html(this.bookedTrip.date);
-    $('.ui_bookedTrip_time').html(this.bookedTrip.tos);
-    $('.ui_bookedTrip_cost').html("20 €*");
+    $('#ui_bookedTrip_date').html(this.getFormattedDate());
+    $('#ui_bookedTrip_time').html(this.bookedTrip.tos);
+    $('#ui_bookedTrip_cost').html("20 €*");
     $('#ui_bookedTrip').show();
     console.info("Added booked trip to main panel")
 }
