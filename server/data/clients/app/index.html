@@ -32,8 +32,8 @@
 
     <!-- Panel Holder -->
     <div id="panelholder">
-        <div id="pid_mapp_s3_launch" class="panel mobile teaser fade-in"></div>
-        <div id="pid_mapp_s3_main" class="panel mobile slide-in-right">
+        <panel id="pid_mapp_s3_launch" nextPanel="pid_mapp_s3_main" class="panel mobile teaser fade-in"></panel>
+        <panel id="pid_mapp_s3_main" nextPanel="pid_mapp_s3_booking_new" class="panel mobile slide-in-right">
             <div class="header grey">
                 <img class="left" src="../shared/assets/images/logo_m.svg" height="95px" />
                 <img class="right not-impl" src="../shared/assets/images/profile.svg" height="95px" />
@@ -105,8 +105,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="pid_mapp_s3_booking_new" class="panel mobile slide-in-right">
+        </panel>
+        <panel id="pid_mapp_s3_booking_new" nextPanel="pid_mapp_s3_booking_confirm" class="panel mobile slide-in-right">
             <div class="header grey">
                 <img class="left" src="../shared/assets/images/logo_m.svg" height="95px" />
                 <img class="right not-impl" src="../shared/assets/images/profile.svg" height="95px" />
@@ -127,14 +127,14 @@
                     <label class="tb text light row">Wann geht's los?</label>
                     <div class="row cflex flex mbXM">
                         <img class="icon left" src="../shared/assets/images/time.svg" height="80px" />
-                        <input class="clickable text right" type="text" value="12:12" />
+                        <input id="set_bookedTrip_time" class="clickable text right " type="text" value="12:12" />
                     </div>
                 </div>
                 <button id="rideOn" class="button primary mtXS clickable icon" onclick="app.nextPanel();"><img
                         class="left" src="../shared/assets/images/arrow_right.svg" height="100px" />Weiter</button>
             </div>
-        </div>
-        <div id="pid_mapp_s3_booking_confirm" class="panel mobile slide-in-right">
+        </panel>
+        <panel id="pid_mapp_s3_booking_confirm" nextPanel="pid_mapp_s3_booking_confirmation" class="panel mobile slide-in-right">
             <div class="header grey">
                 <img class="left" src="../shared/assets/images/logo_m.svg" height="95px" />
                 <img class="right not-impl" src="../shared/assets/images/profile.svg" height="95px" />
@@ -143,25 +143,25 @@
                 <h1 class="mbXS">Neue Fahrt</h1>
                 <img src="../shared/assets/images/map.png" class="not-clickable row mbXS" />
                 <p class="text mbXM mt0">Strecke: <span class="tb">12 km</span></p>
-                <p class="text mbXM mt0">Erwartete Ankunft: <span class="big tb light">12:35 h</span></p>
+                <p class="text mbXM mt0">Erwartete Ankunft: <span class="big tb light ui_bookingEstimation_toa">12:35 h</span></p>
                 <div class="row flex mbXM">
                     <p class="text mb0 mt0 left w75">Geschätzter Preis: <span class="big tb light">20 €*</span></p>
                     <div class="cflex"><img class="mrXS" src="../shared/assets/images/info.svg" height="50px" /><span class="small text tg">Genauer Preis basiert auf Startpunkt zur Startzeit.</span></div>
                 </div>
                 <div class="row mbM flex">
-                    <p class="text mb0 mt0 left w75">Verfügbare Startzeit: <span class="big to light">12:15 h*</span>
+                    <p class="text mb0 mt0 left w75">Verfügbare Startzeit: <span class="big to light"><span class="ui_bookingEstimation_tos">12:15</span> Uhr*</span>
                     </p>
                     <div class="cflex"><img class="mrXS" src="../shared/assets/images/info.svg" height="50px" /><span class="small text tg">Basierend auf Fahrerverfügbarkeit.</span></div>
                 </div>
                 <div class="row flex">
                     <button id="letsgo" class="button small icon green clickable fg1" onclick="app.nextPanel();"><img class="left"
                             src="../shared/assets/images/check.svg" height="100px">Los geht's</button>
-                    <button class="button small medium quad clickable not-impl mlXS fg0" onclick="app.showPanel('pid_mapp_s3_main');"><img class="left"
+                    <button class="button small medium quad clickable not-impl mlXS fg0" onclick="app.showHomePanel();"><img class="left"
                             src="../shared/assets/images/no.svg" onlick="startApp" height="100px"></button>
                 </div>
             </div>
-        </div>
-        <div id="pid_mapp_s3_booking_confirmation" class="panel mobile slide-in-right">
+        </panel>
+        <panel id="pid_mapp_s3_booking_confirmation" nextPanel="pid_mapp_s3_main" class="panel mobile slide-in-right">
             <div class="header grey">
                 <img class="left" src="../shared/assets/images/logo_m.svg" height="95px" />
                 <img class="right not-impl" src="../shared/assets/images/profile.svg" height="95px" />
@@ -172,12 +172,12 @@
                     <img src="../shared/assets/images/Luca.png" class="ui_driverPicture left driver_img" height="225px">
                     <h3 class="driver_full ui_driverFullname">Luca Franco</h3>
                 </div>
-                <p class="text mbL"><span class="driver ui_driverShortname">Luca</span> wird um 12:15 h übernehmen.</p>
-                <button id="goon" class="button mtXL clickable block center-me quad primary"><img class="left"
+                <p class="text mbL"><span class="driver ui_driverShortname">Luca</span> wird um <span class="ui_bookedTrip_time">12:15</span> übernehmen.</p>
+                <button id="goon" class="button mtXL clickable block center-me quad primary" onclick="app.nextPanel();"><img class="left"
                         src="../shared/assets/images/arrow_right.svg" height="100px" /></button>
             </div>
-        </div>
-        <div id="webui_error" class="panel mobile slide-in-right">
+        </panel>
+        <panel id="webui_error" class="panel mobile slide-in-right">
             <div class="header grey">
                 <img class="left" src="../shared/assets/images/logo_m.svg" height="95px" />
                 <img class="right not-impl" src="../shared/assets/images/profile.svg" height="95px" />
@@ -185,7 +185,7 @@
             <div class="content">
                 <h1 class="tb">Es ist ein Fehler aufgetreten</h1>
             </div>
-        </div>
+        </panel>
     </div>
 </body>
 
