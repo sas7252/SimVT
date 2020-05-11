@@ -1,0 +1,14 @@
+CACHE MANIFEST
+# DriveMe WebApp (VT-Sim Component)
+# Version 0.0.1
+
+./index.html
+./resources/*
+
+../shared/assets/css/*
+../shared/assets/javascript/*
+../shared/assets/fonts/*
+../shared/assets/images/*
+
+NETWORK:
+../../clientConfig.json
