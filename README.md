@@ -1,15 +1,15 @@
 # STUD-2020-Sim-VT
 
-Sim-VT is a simulation environment used in our (see [[#People]]) study about the interaction between a teleoperator and  an actual driver in a remote vehicle operation scenario. The simulation basically consists of two webclients and a 'backend'. One webclient mocks a smarphone app that can be used to request/order remote vehicle operation service, while the other weblient acts as the cars infotainment screen. Communication between the apps and the server works via websockets. The 'backend' it self has a nice ui to view the network messages and send commands to the clients. 
+Sim-VT is a simulation environment used in our (see [People](#people--background)) study about the interaction between a teleoperator and  an actual driver in a remote vehicle operation scenario. The simulation basically consists of two webclients and a 'backend'. One webclient mocks a smarphone app that can be used to request/order remote vehicle operation service, while the other weblient acts as the cars infotainment screen. Communication between the apps and the server works via websockets. The 'backend' it self has a nice ui to view the network messages and send commands to the clients. 
 
 
 ## What does this project contain/offer?
 * (Mocked) __Smartphone-App "DriveMe"__ for ordering remote vehicle operation services.
 * (Mocked) __Car Infotainment-Screen__ (to understand interaction between teleoperator & driver in the car)
 * a really basic webapp to test websockets functionallity _(pretty much the only thing that might also be usefull for other projects)_
-* __Buildin webserver__ hosts included WebApps (DriveMe-App + Car-Informtainment) 
-* __Buildin websockets server__ is used for sending commands and request signals
-* a __Admin-UI__ for the backend in it´s own local window
+* __buildin web server__ for hosting previously mentiones webapps and a rest api
+* __buildin websockets server__ is used for sending commands and request signals
+* an __Admin-UI__ for the backend in it´s own local window
 
 ## Getting started
 
@@ -24,7 +24,7 @@ We do not provide any binaries. You will therefore have to setup a full developm
 
 #### First-Time-Use Preparations
 1. Clone this project to the preferred location
-2. Run `npm init` to install the required nodejs modules
+2. Run `npm install` to install the required nodejs modules
 
 
 #### Running the software
@@ -72,9 +72,10 @@ The project structure may not be self explanatory. Therefore we would like to gi
 
 -> Do not use pure (vanilla) javascript for things like this. If we had to do it again, we would go with typescript.
 
-## People
+## People & Background
 
 * Samuel Schreiber aka. [samyLS](https://www.samyls.net)
 * Lena Stütz 
 * Veronica Hartl
 
+## License
