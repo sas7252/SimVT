@@ -17,7 +17,7 @@ let tray = null;
 function createWithDelegate(delegate) {
     if (!created) {
         appDelegate = delegate;
-        tray = new Tray(appDelegate.getProductIcon());
+        tray = new Tray('./frontend/resources/icons/icons8-traffic-jam-24.png');
         tray.setToolTip(appDelegate.getProductName());
         contextMenu = buildMainMenu();
         tray.setContextMenu(contextMenu);
@@ -30,8 +30,7 @@ function createWithDelegate(delegate) {
 }
 
 function buildMainMenu() {
-    return Menu.buildFromTemplate([
-        {
+    return Menu.buildFromTemplate([{
             label: appDelegate.getProductName(),
             sublabel: appDelegate.getProductVersionString(),
             icon: appDelegate.getProductIcon(),
