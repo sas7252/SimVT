@@ -1,10 +1,14 @@
 // WebUI
 
-__null =  function() {
+__null = function() {
     throw "not implemented";
 }
 __f = function() {
     throw "internal function that has not been yet overwritten/customized";
+}
+
+__cm = function() {
+    throw "function not defined. should have been defined/overwritten by client module (app.js)";
 }
 
 var clientConfig;
@@ -14,24 +18,41 @@ var noticiationSound;
 var application = app = {
     //Fields
     cPanel: null, //Object
+    config: null, //Object
     pPanel: null, //Object
+    hPanel: null, //Object
     nSound: null, //Notification Sound (Needs to be set by client customization!)
 
     //Initializers
     initWithSharedCode: __f,
 
-    //Methods
+    //Promissed methods
     reload: __f,
     setTitle: __f,
     applyRTDriverProfile: __f,
     showPanel: __f,
+    showPanelWithoutNotifications: __f,
+    showHomePanel: __f,
     hidePanel: __f,
     nextPanel: __f,
     previousPanel: __f,
     playNotificationSound: __f,
 
-    //Additional Configuration
-    defaultAction: this.nextPanel,
+    //Overwrite these in client module:
+    beforeShowingPanel: __cm,
+    beforeLeavingPanel: __cm,
+    initClientModule: __cm,
+
+    //Rewire default action
+    performDefaultAction: this.__defaultAction,
+
+    //Configuration
+    __defaultAction: this.nextPanel,
+    __configUrl: '/clientConfig.json',
+    panels: {
+        launch: $('panel.panel').first().attr('id'),
+        home: ''
+    },
 
     //Internal Stuff
     __initialized: false,
@@ -45,18 +66,21 @@ var application = app = {
 app.initWithSharedCode = function(clientConfig) {
     if (!(this.__initialized)) {
         if (clientConfig) {
-            app.setTitle(clientConfig.appTitle);    
-            app.applyRTDriverProfile(clientConfig.rtDriverProfile);
-            app.applyClientCustomizations();
+            this.config = clientConfig;
+            this.setTitle(clientConfig.appTitle);
+            this.applyRTDriverProfile(clientConfig.rtDriverProfile);
+            this.initClientModule();
+            console.info("INIT COMPLETE");
             window.setTimeout(function() {
-                app.showPanel('pid_mapp_s3_main');
+                app.showHomePanel();
             }, 1000);
         } else {
-            app.showPanel('webui_error');
+            console.error('could not load client configuration!')
+            this.showPanelWithoutNotifications('webui_error');
             alert('Could not retrieve clientConfig form backend simulation');
         }
         this.__initialized = true;
-    }
+    } else console.warn('second inizialization attempt blocked');
 }
 
 app.reload = function() {
@@ -67,7 +91,13 @@ app.setTitle = function(title) {
     document.title = title;
 }
 
+app.setHomePanel = function(panelId) {
+    this.panels.home = panelId;
+}
+
 app.applyRTDriverProfile = function(driver) {
+    console.info('Applying the following driver profile:');
+    console.table(driver);
     $(".ui_driverShortname").html(driver.shortname);
     $(".ui_driverFullname").html(driver.fullname);
     $(".ui_driverPicture").attr('src', driver.pictureUrl);
@@ -76,17 +106,37 @@ app.applyRTDriverProfile = function(driver) {
     $(".ui_driverHobbies").html(driver.hobbies);
 }
 
-app.showPanel = function(panelId) {
-    console.log('Showing panel: ' + panelId);
+app.showPanel = function(panelId, notify = true) {
     this.pPanel = this.cPanel;
+    if (notify) {
+        this.beforeLeavingPanel(this.pPanel.attr('id'));
+        console.log('PM: HIDE [' + this.pPanel.attr('id') + ']');
+    }
     $('.panel').hide().removeClass('active');
+    if (notify) this.beforeShowingPanel(panelId);
+    console.log('PM: SHOW [' + panelId + ']');
     $('#' + panelId).show().addClass('active');
-    this.cPanel = $(panelId);
+    this.cPanel = $('#' + panelId);
 }
+
+app.showPanelWithoutNotifications = function(panelId) {
+    this.showPanel(panelId, false);
+}
+
+
+app.showHomePanel = function() {
+    this.showPanel(this.panels.home);
+}
+
+
+app.nextPanel = function() {
+    this.showPanel(this.cPanel.attr('nextPanel'));
+}
+
 
 app.previousPanel = function() {
     if (this.cPanel != null) {
-        showPanel(this.cPanel.selector);
+        showPanel(this.cPanel.attr('id'));
     }
 }
 
@@ -94,10 +144,21 @@ app.playNotificationSound = function() {
     nSound.play();
 }
 
+app.getFormattedDate = function() {
+    date = new Date();
+    return date.toLocaleDateString([], { day: '2-digit', month: '2-digit', year: '2-digit' });
+}
+
+app.getFormattedTime = function(diffInMinutes = 0) {
+    time = new Date();
+    time.setMinutes(time.getMinutes() + diffInMinutes);
+    return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
 // Startup
 $(document).ready(function() {
     app.setTitle('DriveMe');
-    app.showPanel('pid_mapp_s3_launch');
+    app.showPanel($('panel.panel').first().attr('id'), false);
     $.get('/clientConfig.json')
         .done(function(clientConfig) {
             app.initWithSharedCode(clientConfig);
@@ -106,35 +167,3 @@ $(document).ready(function() {
             app.initWithSharedCode(false);
         });
 });
-
-/*
-//Counter function for TORs and TBR
-function counter(gofrom, goto) {
-    var from = ($(".active .counter-me").attr("from"));
-    var to = parseInt($(".active .counter-me").attr("to")) + 1;
-    var intervall = $(".active .counter-me").attr("intervall");
-    //Countdown sound
-    var countdown = document.getElementById("countdown");
-    countdown.currentTime = 6;
-    countdown.play();
-    function decrement() {
-        if (from > to) {
-            from -= intervall;
-            $(".active .counter-me").html(from);
-        } else {
-            clearInterval(timer);
-            $("#" + gofrom).removeClass("active");
-            $("#" + goto).addClass("active");
-            //Reset all counters to from (some are used multiple times)
-            $(".counter-me").each(function () {
-                $(this).html($(this).attr("from"))
-            });
-            countdown.pause();
-        }
-    }
-    var timer = setInterval(decrement, 1000);
-}
-
-*/
-
-
