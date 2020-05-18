@@ -16,8 +16,10 @@ let quitNow = false;
 let bWindow = null;
 
 let defaults = {
-    width: 1270,
+    width: 1000,
     height: 800,
+    minHeight: 600,
+    minWidth: 700,
     title: "",
     transparent: false,
     icon: "",
@@ -35,7 +37,7 @@ function createWithDelegate(delegate) {
         bWindow = new BrowserWindow(defaults);
         bWindow.setMenuBarVisibility(false);
         bWindow.loadFile('./frontend/resources/views/html/default.html');
-        bWindow.on('close', function (event) {
+        bWindow.on('close', function(event) {
             if (!quitNow) {
                 event.preventDefault();
                 bWindow.hide();

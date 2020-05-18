@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -15,9 +16,51 @@ header {
     justify-content: space-between;
 }
 
-main {
+appview {
     height: 100%;
     width: 100%;
+    margin: 0 !important;
+    padding: 0;
+}
+
+view.m-view {
+    height: 100%;
+    padding: 0;
+    overflow-y: scroll;
+}
+
+view.s-view {
+    height: 100%;
+    padding: 0;
+}
+
+view-bottombar {
+    padding: 5px;
+    width: 100%;
+    position: sticky;
+    display: block;
+    bottom: 0;
+    height: 100px;
+    background-color: #23272A;
+}
+
+view-bottombar.left {
+    box-shadow: -3px 0px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+view-bottombar.right {
+    box-shadow: 5px 0px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+view-topbar {
+    z-index: 10;
+    padding: 10px;
+    display: block;
+    top: 0px;
+    position: sticky;
+    width: 100%;
+    background-color: #2C2F33;
+    border-bottom: 1px solid #23272A;
 }
 
 window-titlebar {
@@ -30,6 +73,7 @@ window-titlebar {
     background-color: #23272A;
     color: #FFFFFF;
     overflow: hidden;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
 }
 
 window-title {
@@ -46,8 +90,22 @@ window-title label {
     margin: 0px;
 }
 
+view-szdetail {
+    display: block;
+    overflow: scroll;
+}
+
+view-szdetail.sz-view {
+    overflow: scroll;
+}
+
 window-title label.subtext {
     font-size: x-small;
+}
+
+.txinfo {
+    margin-top: 5px;
+    margin-right: 10px;
 }
 
 console {
@@ -56,10 +114,10 @@ console {
     padding: 10px;
     font-size: smaller;
     min-height: 200px;
-    height: 50%;
-    background-color: rgb(27, 30, 32);
+    height: 100%;
     font-family: 'Courier New', Courier, monospace;
     color: #ffffff;
+    border-left: 1px solid #23272A;
 }
 
 console p {
@@ -72,6 +130,13 @@ console-input {
     width: 100%;
     padding: 10px;
 }
+
+sideview {
+    height: 100%;
+    width: 300px;
+    background-color: green;
+}
+
 
 /*
 <div class="input-group-append">

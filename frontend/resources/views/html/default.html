@@ -1,74 +1,274 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="../styles/bootstrap4-neon-glow.css">
     <link rel="stylesheet" href="../styles/app.css">
 </head>
+
 <body class="app">
-    <main>
-        <window-titlebar style="-webkit-app-region: drag">
-            <header>
-                <img height="35" src="../../icons/icons8-traffic-jam-96.png">
-                <window-title>
-                    <label>Driver&TO Interaction Study (STUD 2020)</label>
-                    <label class="subtext">Enterprise Backend Simulator v1.0.1 // samyLS</label>
-                </window-title>
-                <script>//document.write(process.version)</script>
-            </header>            
-              <div style="-webkit-app-region: none" class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                <a href="#!" class="btn btn-dark">Clear Console</a>
-                <a href="#!" class="btn btn-dark">Hide</a>
-              
-                <div class="btn-group" role="group">
-                  <button id="btnGroupDrop5" type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    Window
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="btnGroupDrop5">
+    <window-titlebar style="-webkit-app-region: drag">
+        <header>
+            <img height="35" src="../../icons/icons8-traffic-jam-96.png">
+            <window-title>
+                <label>Driver&TO Interaction Study (STUD 2020)</label>
+                <label class="subtext">Enterprise Backend Simulator v1.0.1 // samyLS</label>
+            </window-title>
+            <script>
+                //document.write(process.version)
+            </script>
+        </header>
+        <div style="-webkit-app-region: none" class="btn-group" role="group" aria-label="Button group with nested dropdown">
+            <a href="#!" class="btn btn-dark">Clear Console</a>
+            <a href="#!" class="btn btn-dark">Hide</a>
+
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop5" type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Window
+        </button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop5">
                     <a class="dropdown-item" href="#!">Hide</a>
                     <a class="dropdown-item" href="#!">Close</a>
-                  </div>
                 </div>
-                <a href="#!" class="btn btn-danger">X</a>
-              </div>
-              
-        </window-titlebar>
-        <console id="uiTextView_console">
-            <p>Hello World</p>
-        </console>
+            </div>
+            <a href="#!" class="btn btn-danger">X</a>
+        </div>
+
+    </window-titlebar>
+    <appview class="row">
+        <view class="m-view col-12 col-lg-7">
+            <view-topbar>
+                <form>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">Scenario</div>
+                                </div>
+                                <select class="form-control">
+                  <option value="2">SZ2 Stress-Situation (Work&Drive)</option>
+                  <option value="3">SZ3 Comfort-Situation (Taxi)</option>
+                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">IAV</div>
+                                </div>
+                                <select class="form-control">
+                  <option value="1">Text only</option>
+                  <option value="2">Voice-Chat</option>
+                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">Driver Profile</div>
+                                </div>
+                                <select class="form-control">
+                  <option value="1">Luca</option>
+                  <option value="2">Ezra</option>
+                </select>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </form>
+                <div class="d-flex flex-row-reverse">
+                    <button class="btn btn-outline-danger btn-sm">Apply now</button>
+                    <div class="text-muted small txinfo">Warning! This will reset the progress and reload all connected clients -->
+                    </div>
+                </div>
+            </view-topbar>
+            <view-szdetail class="sz-view sz2">
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <h5 class="mb-1">1. Introduction & Preparation</h5>
+                        <small>
+              <ul>
+                <li class="text-info">Hand out the questionare</li>
+                <li>Explain the situation (story script)</li>
+                <li>Load save state in game</li>
+                <li>Set the destination in game navigation system</li>
+                <li>Start the camera (recording)</li>
+                <li>Activate the paricipants monitor</li>
+              </ul>
+            </small>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <h5 class="mb-1">2. Start driving & distracting</h5>
+                        <small>
+              <ul>
+                <li>Let participant drive (towards the navs set destination)</li>
+                <li>Boss should call in, when participant on highway</li>
+              </ul>
+            </small>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">3. Offer Remote Takeover</h5>
+                            <button class="btn btn-sm btn-info">Send RT-Offer</button>
+                        </div>
+                        <small>
+              <ul>
+                <li>Observe the participant. As soon as he isn´t focused on the road anymore</li>
+                <li>Offer remote takeover by clicking the button. </li>
+                <li class="text-warning">Wait for the participants resonse before you move on!</li>
+                <li>(You may send more than one request)</li>
+              </ul>
+            </small>
+                        <div class="alert alert-dismissible fade show alert-danger" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+                            <strong>DISMISSED:</strong> User dismissed your offer
+                        </div>
+                        <div class="alert alert-dismissible fade show alert-success" role="alert">
+                            <strong>ACCEPTED:</strong> User accepted your offer
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">4. Take over & your driving</h5>
+                            <button class="btn btn-sm btn-warning">Take over Vehicle</button>
+                        </div>
+                        <small>
+              <ul>
+                <li>Click the take over button, then Immediatly:</li>
+                <li class="text-warning">disconnect the participants steering wheel & pedals! (5 Seconds timer)</li>
+                <li>Continue driving using the keyboard</li>
+              </ul>
+            </small>
+                        <div class="alert alert-dismissible fade show alert-warning" role="alert">
+                            <strong>DISCONNECT STEERING WHEEL, THEN CONTINIUE DRIVING</strong>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">5. Wait for takeback OR offer takeback</h5>
+                            <button class="btn btn-sm btn-info">Send Take-Back Offer</button>
+                        </div>
+                        <small>
+            <ul>
+              <li>Either wait for the user to issue a takeback request.</li>
+              <li>Or issue one yourself when you see that the participant is no longer distracted.</li>
+            </ul>
+          </small>
+                        <div class="alert alert-dismissible fade show alert-info" role="alert">
+                            User requested take back <strong>PROCEED TO NEXT STEP</strong>
+                        </div>
+                        <div class="alert alert-dismissible fade show alert-danger" role="alert">
+                            <strong>DECLINE</strong> User declined your take back request. (You may try again)
+                        </div>
+                        <div class="alert alert-dismissible fade show alert-success" role="alert">
+                            <strong>ACCEPT</strong> User accepted your request. <strong>PROCESS TO NEXT STEP</strong>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">6. Give back control & observe further driving</h5>
+                            <button class="btn btn-sm btn-warning">Release vehicle</button>
+                        </div>
+                        <small>
+          <ul>
+            <li>Click the button, then immediatley:</li>
+            <li class="text-warning">reconnect the participants steering wheel & pedals! (5 Seconds timer)</li>
+          </ul>
+        </small>
+                        <div class="alert alert-dismissible fade show alert-warning" role="alert">
+                            <strong>RECONNECT STEERING WHEEL, THEN CONTINIUE OBSERVING</strong>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">7. Finish test set</h5>
+
+                        </div>
+                        <small>
+        <ul>
+          <li>Once participant reaches destination:</li>
+          <li>Deactivate the participants monitor</li>
+          <li>Pause the game</li>
+          <li>Stop the camera (recording)</li>
+          <li class="text-info">Hand out the questionare</li>
+        </ul>
+      </small>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">8. Prepare next test</h5>
+                            <button class="btn btn-sm btn-danger">Update settings</button>
+                        </div>
+                        <small>
+                  <ul>
+                    <li>Update the settings according to your next setup</li>
+                    <li>Click the button to reload all clients</li>
+                  </ul>
+    </small>
+                    </a>
+                </div>
+            </view-szdetail>
+            <view-szdetail class="sz-view sz3">
+
+            </view-szdetail>
+
+            <view-bottombar class="left">
+                Status-Bar
+            </view-bottombar>
+
+        </view>
+        <view class="s-view d-none d-lg-block col-lg-5">
+            <console id="uiTextView_console">
+                <p>Hello World</p>
+            </console>
+            <view-bottombar class="right">
+                <div class="input-group mb-3">
+                    <input id="uiTextfield_message" type="text" class="form-control" placeholder="Enter a valid signal" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button id="uiButton_sendMessage" class="btn btn-primary" type="button">Send</button>
+                    </div>
+                </div>
+            </view-bottombar>
+        </view>
+    </appview>
+    <!--
+    < <sideview>
+
+
         <console-input>
-            <div class="input-group mb-3">
-                <input id="uiTextfield_message" type="text" class="form-control" placeholder="Enter a valid signal" aria-label="Recipient's username"
-                  aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                  <button id="uiButton_sendMessage" class="btn btn-primary" type="button">Send</button>
-                </div>
-              </div>
-              
+
+
         </console-input>
+        </sideview>
+
         <controlls>
             <div class="row">
                 <div class="col-2">
-                  <div class="list-group" id="list-tab" role="tablist">
-                    <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">SZ2 (Disurbance)</a>
-                    <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">SZ3 (Taxi-Mode)</a>
-                  </div>
-                  <div class="custom-control custom-checkbox p4">
-                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                    <label class="custom-control-label" for="customCheck1">Use VoiceChat</label>
-                  </div>
+                    <div class="list-group" id="list-tab" role="tablist">
+                        <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">SZ2 (Disurbance)</a>
+                        <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">SZ3 (Taxi-Mode)</a>
+                    </div>
+                    <div class="custom-control custom-checkbox p4">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                        <label class="custom-control-label" for="customCheck1">Use VoiceChat</label>
+                    </div>
                 </div>
                 <div class="col-10">
-                  <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">...</div>
-                    <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
-                  </div>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">...</div>
+                        <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
+                    </div>
                 </div>
-              </div>              
+            </div>
         </controlls>
-    </main>
+        -->
     <!--
     <div class="main">
         <div class="split left">
@@ -116,4 +316,5 @@
     <!--<script src="../javascript/jquery-ui.js"></script>-->
     <script src="../javascript/app.js"></script>
 </body>
+
 </html>
