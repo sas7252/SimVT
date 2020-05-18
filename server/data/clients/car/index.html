@@ -30,40 +30,49 @@
 
 <body class="app">
 
+    <audio id="sound_alert">
+        <source src="assets/mp3/alert.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sound_count">
+        <source src="assets/mp3/count.mp3" type="audio/mpeg">
+    </audio>
+
     <!-- Panel Holder -->
     <div id="panelholder">
         <panel id="pid_carui_s0_start" class="panel tablet teaser fade-in"></panel>
 
-        <panel id="pid_carui_s3_rtoffer_accepted_countdown" class="panel tablet slide-in-right">
-            <div class="header grey">
-                <img class="left" src="assets/img/logo_m.svg" height="40px" />
-            </div>
-            <div class="content">
-                <h1 class="tb reg tcenter mbS">SystemÃ¼bernahme</h1>
-                <div class="cbflex">
-                    <h1 class="tb mrM">erfolgt in</h1>
-                    <div class="border-me tcenter"><span class="bigger tb reg counter-me" from="5" to="0" intervall="1">5</span></div>
-                    <h1 class="tb mlM">Sekunden</h1>
-                </div>
-            </div>
-        </panel>
-        <panel id="pid_carui_s3_rtrelease_request" class="panel tablet slide-in-right">
+        <panel id="pid_carui_s0_home" class="panel tablet slide-in-right">
             <div class="header grey">
                 <img class="left" src="assets/img/logo_m.svg" height="40px" />
                 <img class="right not-impl" src="assets/img/micro.svg" height="40px" />
             </div>
             <div class="content">
-                <h1 class="tb"><span class="driver">Luca</span> bittet dich wieder zu Ã¼bernehmen:</h1>
+                <h1 class="tb mlines"></h1>
+            </div>
+        </panel>
+
+        <!--
+            RTOFFER (Agebot für Teleoperation)
+            - pid_carui_s2_rtoffer_disctracted (SZ 2)
+            - pid_carui_s3_rtoffer_bookedtrip (SZ 3)
+        -->
+
+        <panel id="pid_carui_s2_rtoffer_disctracted" class="panel tablet slide-in-right">
+            <div class="header grey">
+                <img class="left" src="assets/img/logo_m.svg" height="40px" />
+                <img class="right not-impl" src="assets/img/micro.svg" height="40px" />
+            </div>
+            <div class="content">
+                <h1 class="tb mlines">Du scheinst abgelenkt zu sein.</br>Soll ein Teleoperator für dich übernehmen?</h1>
                 <div class="cflex">
                     <img src="assets/img/info.svg" class="left mrXS" height="45px" />
-                    <span class="left text small tg">Die Teleoperation wird beendet und sÃ¤mtliche Fahrfunktionen an dich
-                        Ã¼bergeben.</span>
+                    <span class="left text small tg">Du kannst diesen kostenfreien Service jederzeit beenden.</span>
                 </div>
                 <div class="row bottom-me">
-                    <button id="accept_s3_tbr" class="button left icon green clickable"><img class="left"
-                            src="assets/img/check.svg" height="75px" />Annehmen</button>
-                    <button class="button right icon medium not-impl clickable"><img src="assets/img/no.svg"
-                            class="left" height="75px" />Ablehnen</button>
+                    <button id="accept_s2_tor" class="button left icon green clickable"><img class="left"
+                            src="assets/img/check.svg" height="75px" onclick="app.acceptRtOffer(true);">Annehmen</button>
+                    <button id="decline_s2_tor" class="button right icon medium clickable"><img src="assets/img/no.svg"
+                            class="left" height="75px" onclick="app.acceptRtOffer(false)">Ablehnen</button>
                 </div>
             </div>
         </panel>
@@ -73,127 +82,161 @@
                 <img class="right not-impl" src="assets/img/micro.svg" height="40px" />
             </div>
             <div class="content">
-                <h1 class="tb"><span class="driver">Luca</span> bietet dir eine SystemÃ¼bernahme an:</h1>
+                <h1 class="tb"><span class="driver ui_driverShortname">Luca</span> bietet dir eine Systemübernahme an:</h1>
                 <div class="cflex">
                     <img src="assets/img/info.svg" class="left mrXS" height="45px" />
-                    <span class="left text small tg">SÃ¤mtliche Fahrfunktionen werden vom Teleoperator Ã¼bernommen.</span>
+                    <span class="left text small tg">Sämtliche Fahrfunktionen werden vom Teleoperator übernommen.</span>
                 </div>
                 <div class="row bottom-me">
                     <button id="accept_s3_tor" class="button left icon green clickable"><img class="left"
-                            src="assets/img/check.svg" height="75px" />Annehmen</button>
+                            src="assets/img/check.svg" height="75px" onclick="app.acceptRtOffer(true)">Annehmen</button>
                     <button class="button right icon medium not-impl clickable"><img src="assets/img/no.svg"
-                            class="left" height="75px" />Ablehnen</button>
+                            class="left" height="75px" onclick="app.acceptRtOffer(false)">Ablehnen</button>
                 </div>
             </div>
         </panel>
-        <panel id="pid_carui_s2_rtoffer_" class="panel tablet slide-in-right">
-            <div class="header grey">
-                <img class="left" src="assets/img/logo_m.svg" height="40px" />
-                <img class="right not-impl" src="assets/img/micro.svg" height="40px" />
-            </div>
-            <div class="content">
-                <h1 class="tb mlines">Du scheinst abgelenkt zu sein.</br>Soll ein Teleoperator fÃ¼r dich Ã¼bernehmen?</h1>
-                <div class="cflex">
-                    <img src="assets/img/info.svg" class="left mrXS" height="45px" />
-                    <span class="left text small tg">Du kannst diesen kostenfreien Service jederzeit beenden.</span>
-                </div>
-                <div class="row bottom-me">
-                    <button id="accept_s2_tor" class="button left icon green clickable"><img class="left"
-                            src="assets/img/check.svg" height="75px" />Annehmen</button>
-                    <button id="decline_s2_tor" class="button right icon medium clickable"><img src="assets/img/no.svg"
-                            class="left" height="75px" />Ablehnen</button>
-                </div>
-            </div>
-        </panel>
-        <panel id="pid_carui_s2_rtrelease_confirm" class="panel tablet slide-in-right">
-            <div class="header grey">
-                <img class="left" src="assets/img/logo_m.svg" height="40px" />
-                <img class="right not-impl" src="assets/img/micro.svg" height="40px" />
-            </div>
-            <div class="content">
-                <h1 class="tb">MÃ¶chtest du das Steuer wieder Ã¼bernehmen?</h1>
-                <div class="cflex">
-                    <img src="assets/img/info.svg" class="left mrXS" height="45px" />
-                    <span class="left text small tg">Die Teleoperation wird beendet und sÃ¤mtliche Fahrfunktionen an dich
-                        Ã¼bergegeben.</span>
-                </div>
-                <div class="row bottom-me">
-                    <button id="accept_s2_tbr" class="button left icon green clickable"><img class="left"
-                            src="assets/img/arrow_right.svg" height="75px" />Ja</button>
-                    <button class="button right icon medium not-impl clickable"><img src="assets/img/no.svg"
-                            class="left" height="75px" />Nein</button>
-                </div>
-            </div>
-        </panel>
-        <panel id="pid_carui_s0_rtoffline" class="panel tablet slide-in-right">
+
+        <!-- 
+            TRANSISTION -> ONLINE
+            - pid_carui_s0_rtoffer_countdown2online (SZ 2+3)
+        -->
+
+        <panel id="pid_carui_s0_rtoffer_countdown2online" class="panel tablet slide-in-right">
             <div class="header grey">
                 <img class="left" src="assets/img/logo_m.svg" height="40px" />
             </div>
             <div class="content">
-                <h1 class="tb">Vielen Dank!</h1>
-                <p class="text">Wir hoffen du warst zufrieden und freuen uns Ã¼ber Feedback.</p>
-            </div>
-        </panel>
-        <panel id="pid_carui_s0_rtrelease_countdown2offline" class="panel tablet slide-in-right">
-            <div class="header grey">
-                <img class="left" src="assets/img/logo_m.svg" height="40px" />
-            </div>
-            <div class="content">
-                <h1 class="tb reg tcenter mbS">SystemÃ¼bergabe</h1>
+                <h1 class="tb reg tcenter mbS">Systemübernahme</h1>
                 <div class="cbflex">
                     <h1 class="tb mrM">erfolgt in</h1>
-                    <div class="border-me tcenter"><span class="bigger tb reg counter-me" from="5" to="0" intervall="1">5</span></div>
+                    <div class="border-me tcenter"><span class="bigger tb reg counter-me appTimer" from="5" to="0" intervall="1">5</span></div>
                     <h1 class="tb mlM">Sekunden</h1>
                 </div>
-                <button class="button big orange icon up reg bottom-meS mtM clickable not-impl"><img
-                        src="assets/img/wheel.svg" class="left" height="125px" />Bitte bereithalten!</button>
             </div>
         </panel>
+
+        <!-- 
+            ONLINE PANELS
+            - pid_carui_s0_rtonline (SZ 2+3)
+        -->
+
         <panel id="pid_carui_s0_rtonline" class="panel tablet slide-in-right">
             <div class="header grey">
                 <img class="left abs" src="assets/img/logo_m.svg" height="40px" />
                 <h1 class="tcenter text">Ziel: <span class="tb reg">Zuhause</span></h1>
             </div>
             <div class="content">
-                <h1 class="tb tcenter"><span class="driver">Luca</span> hat die Steuerung Ã¼bernommen.</h1>
+                <h1 class="tb tcenter"><span class="driver ui_driverShortname">Luca</span> hat die Steuerung übernommen.</h1>
+                <!-- Interaction Scenario 1 (Just Text) -->
                 <div class="v_onlyIAV1 ccflex grey not-clickable not-impl box">
-                    <img class="mrL driver_img" src="assets/img/Luca.png" height="225px" />
+                    <img class="mrL driver_img ui_driverPicture" src="assets/img/Luca.png" height="225px" />
                     <div>
-                        <h3 class="driver_full">Luca Franco</h3>
-                        <p class="text lhS mt0">Alter: <span class="reg driver_age">27</span></br>
-                            Fahrerfahrung: <span class="reg driver_de">9 Jahre</span></br>
-                            Interessen: <span class="reg driver_hobbies">Kochen, FuÃŸball, Reisen</span></p>
+                        <h3 class="driver_full ui_driverFullname">Luca Franco</h3>
+                        <p class="text lhS mt0">Alter: <span class="reg driver_age ui_driverAge">27</span></br>
+                            Fahrerfahrung: <span class="reg driver_de ui_driverExperience">9 Jahre</span></br>
+                            Interessen: <span class="reg driver_hobbies ui_driverHobbies">Kochen, Fußball, Reisen</span></p>
                     </div>
                 </div>
+                <!-- Interaction Scenario 2 (Voice Chat) -->
                 <div class="v_onlyIAV2 ccflex">
                     <span class="text mrM">Sprachanruf</span>
                     <img class="scale" src="assets/img/call.svg" height="300px" />
                     <span class="text mlM">wurde gestartet</span>
                 </div>
                 <!-- Contextual: this button is only available in s2-->
-                <button id="end_to" class="p_onlyS2 button big smaller orange bottom-meS mtM icon clickable"><img
-                        src="assets/img/no.svg" class="left" height="95px" />Ãœbernahme beenden</button>
+                <button id="end_to" class="v_onlyS2 button big smaller orange bottom-meS mtM icon clickable"><img
+                        src="assets/img/no.svg" class="left" height="95px" onclick="app.confirmUserReleaseRequest();" />Übernahme beenden</button>
             </div>
         </panel>
+
         <!--
-        <panel id="t_s3_v1" class="panel tablet slide-in-right">
+            RTRELEASE (Angebot für Kontroll-Rücknahme)
+            - pid_carui_s2_rtrelease_confirm (SZ 2)
+            - pid_carui_s3_rtrelease_request (SZ 3)
+        -->
+
+        <panel id="pid_carui_s2_rtrelease_confirm" class="panel tablet slide-in-right">
             <div class="header grey">
-                <img class="left abs" src="assets/img/logo_m.svg" height="40px" />
-                <h1 class="tcenter text">Ziel: <span class="tb reg">Zuhause</span></h1>
+                <img class="left" src="assets/img/logo_m.svg" height="40px" />
+                <img class="right not-impl" src="assets/img/micro.svg" height="40px" />
             </div>
             <div class="content">
-                <h1 class="tb tcenter"><span class="driver">Luca</span> hat die Steuerung Ã¼bernommen.</h1>
-                <div class="ccflex grey not-clickable not-impl box mtL">
-                    <img class="mrL driver_img" src="assets/img/Luca.png" height="250px" />
-                    <div>
-                        <h3 class="driver_full">Luca Franco</h3>
-                        <p class="text mt0 lhS">Alter: <span class="reg driver_age">27</span></br>
-                            Fahrerfahrung: <span class="reg driver_de">9 Jahre</span></br>
-                            Interessen: <span class="reg driver_hobbies">Kochen, FuÃŸball, Reisen</span></p>
-                    </div>
+                <h1 class="tb">Möchtest du das Steuer wieder übernehmen?</h1>
+                <div class="cflex">
+                    <img src="assets/img/info.svg" class="left mrXS" height="45px" />
+                    <span class="left text small tg">Die Teleoperation wird beendet und sämtliche Fahrfunktionen an dich
+                        übergegeben.</span>
+                </div>
+                <div class="row bottom-me">
+                    <button id="accept_s2_tbr" class="button left icon green clickable"><img class="left"
+                            src="assets/img/arrow_right.svg" height="75px" onclick="app.requestRtRelease()"/>Ja</button>
+                    <button class="button right icon medium not-impl clickable"><img src="assets/img/no.svg"
+                            class="left" height="75px" onclick="app.showPanel('pid_carui_s0_rtonline')"/>Nein</button>
                 </div>
             </div>
-        </panel>-->
+        </panel>
+
+        <panel id="pid_carui_s3_rtrelease_request" class="panel tablet slide-in-right">
+            <div class="header grey">
+                <img class="left" src="assets/img/logo_m.svg" height="40px" />
+                <img class="right not-impl" src="assets/img/micro.svg" height="40px" />
+            </div>
+            <div class="content">
+                <h1 class="tb"><span class="driver ui_driverShortname">Luca</span> bittet dich wieder zu übernehmen:</h1>
+                <div class="cflex">
+                    <img src="assets/img/info.svg" class="left mrXS" height="45px" />
+                    <span class="left text small tg">Die Teleoperation wird beendet und sämtliche Fahrfunktionen an dich
+                        übergeben.</span>
+                </div>
+                <div class="row bottom-me">
+                    <button id="accept_s3_tbr" class="button left icon green clickable"><img class="left"
+                            src="assets/img/check.svg" height="75px" onclick="app.answerSZ3ReleaseRequest(true)" />Annehmen</button>
+                    <button class="button right icon medium not-impl clickable"><img src="assets/img/no.svg"
+                            class="left" height="75px" onclick="app.answerSZ3ReleaseRequest(false)"/>Ablehnen</button>
+                </div>
+            </div>
+        </panel>
+
+        <!--
+                TRANSITION -> OFFLINE
+                - pid_carui_s0_rtrelease_countdown2offline (SZ 2+3)
+        -->
+
+        <panel id="pid_carui_s0_rtrelease_countdown2offline" class="panel tablet slide-in-right">
+            <div class="header grey">
+                <img class="left" src="assets/img/logo_m.svg" height="40px" />
+            </div>
+            <div class="content">
+                <h1 class="tb reg tcenter mbS">Systemübergabe</h1>
+                <div class="cbflex">
+                    <h1 class="tb mrM">erfolgt in</h1>
+                    <div class="border-me tcenter"><span class="bigger tb reg counter-me appTimer" from="5" to="0" intervall="1">5</span></div>
+                    <h1 class="tb mlM">Sekunden</h1>
+                </div>
+                <button class="button big orange icon up reg bottom-meS mtM clickable not-impl"><img
+                        src="assets/img/wheel.svg" class="left" height="125px" />Bitte bereithalten!</button>
+            </div>
+        </panel>
+
+        <!--
+                RTOFFLINE
+                - pid_carui_s0_rtoffline (SZ 2+3)
+        -->
+
+        <panel id="pid_carui_s0_rtoffline" class="panel tablet slide-in-right">
+            <div class="header grey">
+                <img class="left" src="assets/img/logo_m.svg" height="40px" />
+            </div>
+            <div class="content">
+                <h1 class="tb">Vielen Dank!</h1>
+                <p class="text">Wir hoffen du warst zufrieden und freuen uns über Feedback.</p>
+            </div>
+        </panel>
+
+        <!-- 
+                ERROR PANEL
+        -->
+
         <panel id="webui_error" class="panel tablet slide-in-right">
             <div class="header grey">
                 <img class="left" src="../shared/assets/images/logo_m.svg" height="95px" />
