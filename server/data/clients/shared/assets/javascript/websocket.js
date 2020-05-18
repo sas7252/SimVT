@@ -81,3 +81,10 @@ ws.sendMessage = function(message) {
         console.warn("Could not send message. (Not on outgoing whitelist)")
     }
 }
+
+//Overwrite / Connect App functions
+app.connectToSignalServer = function = {
+    ws.connect(this.__signalServerURL);
+}
+
+app.sendSignal = ws.sendMessage;
