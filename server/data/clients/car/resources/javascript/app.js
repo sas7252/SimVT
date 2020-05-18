@@ -36,7 +36,9 @@ app._sounds = {
 
 app.beforeShowingPanel = function(nextPanelId) {
     switch (nextPanelId) {
-        //Warning sound for all of these cases:
+        case this._panels.home:
+            this.startLiveClock();
+            //Warning sound for all of these cases:
         case this._panels.rtOfferS2:
         case this._panels.rtOfferS3:
         case this._panels.rtReleaseS2:
@@ -60,7 +62,7 @@ app.beforeShowingPanel = function(nextPanelId) {
 }
 
 app.beforeLeavingPanel = function(leavingPanelId) {
-    //No need for this, so just leave it blank
+    if (leavingPanelId == this._panels.home) this.stopLiveClock();
 }
 
 app.initClientModule = function() {
@@ -173,4 +175,17 @@ app.showHomePanelAfterTimeout = function(tInSeconds) {
 
 app.sendSignal = function(val) {
     console.info('SHOULD SEND: ' + val);
+}
+
+app.startLiveClock = function() {
+    this.stopLiveClock();
+    this._liveClock = setInterval(app.updateLiveClock, 1000);
+}
+
+app.stopLiveClock = function() {
+    clearInterval(this._liveClock);
+}
+
+app.updateLiveClock = function() {
+    $('.ui_liveClock').html(app.getFormattedTime(0));
 }
