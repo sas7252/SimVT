@@ -1,6 +1,7 @@
 app._panels = {
     start: 'pid_carui_s0_start',
     home: 'pid_carui_s0_home',
+    loader: 'pid_carui_s0_loader',
     rtOfferS2: 'pid_carui_s2_rtoffer_disctracted',
     rtOfferS3: 'pid_carui_s3_rtoffer_bookedtrip',
     count2Online: 'pid_carui_s0_rtoffer_countdown2online',
@@ -12,18 +13,18 @@ app._panels = {
 }
 
 app._signal = {
-    inb = {
+    inb: {
         reload: 'op2car_reload',
         rtOffer: 'op2car_rtOFFER',
         rtOnline: 'op2car_rtONLINE',
         rtRelease: 'op2car_rtRELEASE',
         rtOffline: 'op2car_rtOFFLINE'
     },
-    out = {
+    out: {
         rtOfferAccept: 'car2op_rtOFFER-accept',
         rtOfferDecline: 'car2op_rtOFFER-decline',
-        rtReleaseConfirmNo: 'car2op_rtRELEASE-confirm:yes',
-        rtReleaseConfirmYes: 'car2op_rtRELEASE-confirm:no',
+        rtReleaseConfirmNo: 'car2op_rtRELEASE-confirm:no',
+        rtReleaseConfirmYes: 'car2op_rtRELEASE-confirm:yes',
         rtReleaseReq: 'car2op_rtRELEASE-request',
     }
 }
@@ -40,7 +41,7 @@ app.beforeShowingPanel = function(nextPanelId) {
         case this._panels.rtOfferS3:
         case this._panels.rtReleaseS2:
         case this._panels.rtReleaseS3:
-            this._sounds.currentTime = 0;
+            this._sounds.alert.currentTime = 0;
             this._sounds.alert.play();
             break;
         case this._panels.count2Online:
@@ -52,9 +53,7 @@ app.beforeShowingPanel = function(nextPanelId) {
             this.showPanelAfterTimeout(5, this._panels.rtOffline);
             break;
         case this._panels.rtOffline:
-            this._sounds.currentTime = 0;
-            this._sounds.alert.play();
-            this.showHomePanelAfterTimeout(3);
+            this.showHomePanelAfterTimeout(5);
             break;
         default:
     }
@@ -86,10 +85,11 @@ app.initClientModule = function() {
 app.acceptRtOffer = function(bool) {
     var signal = bool ? this._signal.out.rtOfferAccept : this._signal.out.rtOfferDecline;
     this.sendSignal(signal);
+    bool ? this.showPanel(this._panels.loader) : this.showHomePanel();
 }
 
 //SZ2-only: Request TakeBack
-app.confirmUserReleaseRequest() {
+app.confirmUserReleaseRequest = function() {
     if (this.sNr != 2) {
         console.warn('Method only available in SZ2!');
         return -1;
@@ -104,7 +104,7 @@ app.requestRtRelease = function() {
         return -1;
     }
     app.sendSignal(this._signal.out.rtReleaseReq);
-    app.showPanel('pid_carui_s0_rtonline');
+    app.showPanel(this._panels.loader);
 }
 
 app.answerSZ3ReleaseRequest = function(bool) {
@@ -114,7 +114,7 @@ app.answerSZ3ReleaseRequest = function(bool) {
     }
     var signal = bool ? this._signal.out.rtReleaseConfirmYes : this._signal.out.rtReleaseConfirmNo;
     app.sendSignal(signal);
-    app.showPanel('pid_carui_s0_rtonline');
+    bool ? app.showPanel(this._panels.loader) : app.showPanel(this._panels.rtOnline);
 }
 
 app.handleServerSignal = function(signal) {
@@ -124,12 +124,12 @@ app.handleServerSignal = function(signal) {
             break;
         case this._signal.inb.rtOffer:
             var nextPanel = '';
-            nextPanel = (this.sNr == 2) ? this._panels.rtOfferS2 : '';
-            nextPanel = (this.sNr == 3) ? this._panels.rtOfferS3 : '';
+            nextPanel = (this.sNr == 2) ? this._panels.rtOfferS2 : ((this.sNr == 3) ? this._panels.rtOfferS3 : '');
             if (nextPanel == '') {
                 console.warn('Could not determine rtOffer panel for this szenario: ' + this.sNr);
                 return -1;
             } else app.showPanel(nextPanel);
+            break;
         case this._signal.inb.rtOnline:
             app.showPanel('pid_carui_s0_rtoffer_countdown2online');
             break;
@@ -144,15 +144,18 @@ app.handleServerSignal = function(signal) {
     }
 }
 
-app.startTimer = function(tInSeconds) {
+app.startTimer = function(tInSeconds, enableSound = true) {
     var tInSecondsLeft = tInSeconds;
+    $(".appTimer").html(tInSecondsLeft);
+    if (tInSeconds == 5 && enableSound) {
+        app._sounds.count.currentTime = 6;
+        app._sounds.count.play();
+    } else console.log('Timer !=5 sec. Will not play countdown sound');
     var countdown = setInterval(function() {
         if (tInSecondsLeft <= 0) {
             clearInterval(countdown);
         }
-        $(".appTimer").html(tInSecondsLeft);
-        this._sounds.count.currentTime = 6;
-        this._sounds.count.play();
+        $(".appTimer").html(tInSecondsLeft - 1);
         tInSecondsLeft--;
     }, 1000);
 }
@@ -166,4 +169,8 @@ app.showPanelAfterTimeout = function(tInSeconds, panelId) {
 
 app.showHomePanelAfterTimeout = function(tInSeconds) {
     this.showPanelAfterTimeout(tInSeconds, app.panels.home);
+}
+
+app.sendSignal = function(val) {
+    console.info('SHOULD SEND: ' + val);
 }

@@ -69,11 +69,12 @@ app.initWithSharedCode = function(clientConfig) {
     if (!(this.__initialized)) {
         if (clientConfig) {
             this.config = clientConfig;
-            this.sNr = clientConfig.scenarioNr;
+            this.sNr = clientConfig.sNr;
+            this.iavNr = clientConfig.iavNr;
             this.setTitle(clientConfig.appTitle);
             this.applyRTDriverProfile(clientConfig.rtDriverProfile);
             this.initClientModule();
-            console.info("INIT COMPLETE");
+            console.info("INIT COMPLETE for SZ " + this.sNr + " with IAV " + this.iavNr);
             window.setTimeout(function() {
                 app.showHomePanel();
             }, 1000);
@@ -87,7 +88,7 @@ app.initWithSharedCode = function(clientConfig) {
 }
 
 app.reload = function() {
-    document.reload();
+    location.reload();
 }
 
 app.setTitle = function(title) {
