@@ -1,5 +1,6 @@
 {
     "appTitle": "DriveMe",
+    "scenarioNr": 2,
     "rtDriverProfile": {
         "shortname": "sschmidt",
         "fullname": "Sarah Schmidt",

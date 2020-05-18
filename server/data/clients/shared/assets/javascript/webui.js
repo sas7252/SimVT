@@ -22,6 +22,8 @@ var application = app = {
     pPanel: null, //Object
     hPanel: null, //Object
     nSound: null, //Notification Sound (Needs to be set by client customization!)
+    sNr: 0,
+    iavNr: 0,
 
     //Initializers
     initWithSharedCode: __f,
@@ -67,6 +69,7 @@ app.initWithSharedCode = function(clientConfig) {
     if (!(this.__initialized)) {
         if (clientConfig) {
             this.config = clientConfig;
+            this.sNr = clientConfig.scenarioNr;
             this.setTitle(clientConfig.appTitle);
             this.applyRTDriverProfile(clientConfig.rtDriverProfile);
             this.initClientModule();
