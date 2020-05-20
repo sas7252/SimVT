@@ -19,7 +19,8 @@ module.exports = {
     handleIncommingSignal,
     addMessageToWindowConsole,
     filterSignalToServer,
-    filterSignalToClient
+    filterSignalToClient,
+    getSimCfg
 }
 
 global.appinfo = {
@@ -110,6 +111,10 @@ function quitApplication() {
         frontend.destroy();
         console.log('Goodbye :)')
     }
+}
+
+function getSimCfg() {
+    return global.simCfg;
 }
 
 function handleIncommingSignal(signal, sender) {

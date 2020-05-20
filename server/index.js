@@ -19,7 +19,7 @@ function isRunning() {
 
 function startWithDelegate(delegate) {
     if (!running) {
-        contentSvc.start(8080, './server/data/clients');
+        contentSvc.start(8080, './server/data/clients', delegate.getSimCfg);
         signalSvc.start(8081, delegate.handleIncommingSignal);
         signalSvc.useInboundFilter(delegate.filterSignalToServer);
         running = true;
