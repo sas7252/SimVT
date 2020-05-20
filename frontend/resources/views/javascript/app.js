@@ -5,8 +5,10 @@ __f = function() {
     throw "implementation missing";
 }
 
+
+
 //ViewController "Class"
-vc = viewController = {
+var vc = viewController = {
 
     //Initializers
     init: __f,
@@ -49,32 +51,30 @@ vc = viewController = {
 
 vc.init = function() {
 
-    this._appinfo = remote.getGlobal('appInfo');
-    this._signals = remote.getGlobal('signals');
-
-
+    vc._appinfo = remote.getGlobal('appInfo');
+    vc._signals = remote.getGlobal('signals');
 
     //Wire up UI Outlets
-    this._outlets.console = $('#ui_consoleView');
-    this._outlets.txtfCmd = $('#ui_textfield_commandInput');
-    this._outlets.dropdown_sNr = $('#ui_dropdown_sNr');
-    this._outlets.dropdown_iavNr = $('#ui_dropdown_sNr');
-    this._outlets.dropdown_dNr = $('#ui_dropdown_sNr');
-    this._outlets.btn_runCmd = $('.ui_btn_runCmd');
+    vc._outlets.console = $('#ui_consoleView');
+    vc._outlets.txtfCmd = $('#ui_textfield_commandInput');
+    vc._outlets.dropdown_sNr = $('#ui_dropdown_sNr');
+    vc._outlets.dropdown_iavNr = $('#ui_dropdown_sNr');
+    vc._outlets.dropdown_dNr = $('#ui_dropdown_sNr');
+    vc._outlets.btn_runCmd = $('#ui_btn_runCmd');
 
     //Wire up the buttons
-    $('.ui_btn_exitApp').click(vc.triggerAction(vc._actions.exitApp));
-    $('.ui_btn_hideApp').click(vc.triggerAction(vc._actions.hideApp));
-    $('.ui_btn_sendRtOffer').click(vc.triggerAction(vc._actions.sendRtOffer));
-    $('.ui_btn_sendTbOffer').click(vc.triggerAction(vc._actions.sendTbOffer));
-    $('.ui_btn_sendRtOnline').click(vc.triggerAction(vc._actions.sendRTOnline));
-    $('.ui_btn_sendRtOffline').click(vc.triggerAction(vc._actions.sendRtOffline));
-    $('.ui_btn_resetCfg').click(vc.triggerAction(vc._actions.publishConfiguration));
-    $('.ui_btn_applyCfg').click(vc.triggerAction(vc._actions.publishConfiguration));
-    this._outlets.btn_runCmd.click(vc.triggerAction(vc._actions.runCustomCommand));
+    $('#ui_btn_exitApp').click(function() {vc.triggerAction(vc._actions.exitApp)});
+    $('#ui_btn_hideApp').click(function() {vc.triggerAction(vc._actions.hideApp)});
+    $('#ui_btn_sendRtOffer').click(function() {vc.triggerAction(vc._actions.sendRtOffer)});
+    $('#ui_btn_sendTbOffer').click(function() {vc.triggerAction(vc._actions.sendTbOffer)});
+    $('#ui_btn_sendRtOnline').click(function() {vc.triggerAction(vc._actions.sendRTOnline)});
+    $('#ui_btn_sendRtOffline').click(function() {vc.triggerAction(vc._actions.sendRtOffline)});
+    $('#ui_btn_resetCfg').click(function() {vc.triggerAction(vc._actions.publishConfiguration)});
+    $('#ui_btn_applyCfg').click(function() {vc.triggerAction(vc._actions.publishConfiguration)});
+    vc._outlets.btn_runCmd.click(function() {vc.triggerAction(vc._actions.runCustomCommand)});
 
     //Add eevent for: enter key on textfield -> send now
-    this._outlets.txtfCmd.keyup(function(event) {
+    vc._outlets.txtfCmd.keyup(function(event) {
         // Number 13 is the "Enter" key on the keyboard
         if (event.keyCode === 13) {
             event.preventDefault(); // Cancel the default action, if needed
@@ -82,8 +82,10 @@ vc.init = function() {
         }
     });
 
-    this.readCurrentSimCfg();
+    vc.readCurrentSimCfg();
 }
+
+$().ready(vc.init);
 
 vc.executeAppCommand = function(appCommand) {
     console.log('Calling main process to (executeAppCommand: [' + appCommand + '])');
@@ -139,7 +141,7 @@ vc.readCurrentSimCfg = function() {
 
     //Adapt view
     var sNr = remote.getGlobal('simCfg').sNr;
-    var iavNr = remote.getClobal()
+    //var iavNr = remote.getClobal()
     $('.ui_onlyS2').hide();
     $('.ui_onlyS3').hide();
     $('.ui_onlyS' + sNr).show();
@@ -173,4 +175,3 @@ vc.addToConsole = function(message, color) {
     this._outlets.console.append(pre);
 }
 
-$().ready(vc.init);

@@ -21,8 +21,8 @@
             </script>
         </header>
         <div style="-webkit-app-region: none" class="btn-group" role="group" aria-label="Button group with nested dropdown">
-            <a href="#!" class="btn btn-dark">Hide</a>
-            <a href="#!" class="btn btn-danger">X</a>
+            <a href="#!" class="btn btn-dark" id="ui_btn_hideApp">Hide</a>
+            <a href="#!" class="btn btn-danger" id="ui_btn_exitApp">X</a>
         </div>
 
     </window-titlebar>
@@ -71,7 +71,7 @@
                     </div>
                 </form>
                 <div class="d-flex flex-row-reverse">
-                    <button class="btn btn-outline-danger btn-sm">Apply now</button>
+                    <button id="ui_btn_resetCfg" class="btn btn-outline-danger btn-sm">Apply now</button>
                     <div class="text-muted small txinfo">Warning! This will reset the progress and reload all connected clients -->
                     </div>
                 </div>
@@ -103,7 +103,7 @@
                     <a href="#" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">3. Offer Remote Takeover</h5>
-                            <button class="btn btn-sm btn-info">Send RT-Offer</button>
+                            <button id="ui_btn_sendRtOffer" class="btn btn-sm btn-info">Send RT-Offer</button>
                         </div>
                         <small>
               <ul>
@@ -126,7 +126,7 @@
                     <a href="#" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">4. Take over & your driving</h5>
-                            <button class="btn btn-sm btn-warning">Take over Vehicle</button>
+                            <button id="ui_btn_sendRtOnline" class="btn btn-sm btn-warning">Take over Vehicle</button>
                         </div>
                         <small>
               <ul>
@@ -142,7 +142,7 @@
                     <a href="#" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">5. Wait for takeback OR offer takeback</h5>
-                            <button class="btn btn-sm btn-info">Send Take-Back Offer</button>
+                            <button id="ui_btn_sendTbOffer" class="btn btn-sm btn-info">Send Take-Back Offer</button>
                         </div>
                         <small>
             <ul>
@@ -163,7 +163,7 @@
                     <a href="#" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">6. Give back control & observe further driving</h5>
-                            <button class="btn btn-sm btn-warning">Release vehicle</button>
+                            <button id="ui_btn_sendRtOffline" class="btn btn-sm btn-warning">Release vehicle</button>
                         </div>
                         <small>
           <ul>
@@ -193,7 +193,7 @@
                     <a href="#" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">8. Prepare next test</h5>
-                            <button class="btn btn-sm btn-danger">Update settings</button>
+                            <button id="ui_btn_applyCfg" class="btn btn-sm btn-danger">Update settings</button>
                         </div>
                         <small>
                   <ul>
@@ -214,14 +214,14 @@
 
         </view>
         <view class="s-view d-none d-lg-block col-lg-5">
-            <console id="uiTextView_console">
+            <console id="ui_consoleView">
                 <p>Hello World</p>
             </console>
             <view-bottombar class="right">
                 <div class="input-group mb-3">
-                    <input id="uiTextfield_message" type="text" class="form-control" placeholder="Enter a valid signal" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <input id="ui_textfield_commandInput" type="text" class="form-control" placeholder="Enter a valid signal" aria-label="Recipient's username" aria-describedby="basic-addon2">
                     <div class="input-group-append">
-                        <button id="uiButton_sendMessage" class="btn btn-primary" type="button">Send</button>
+                        <button id="ui_btn_runCmd" class="btn btn-primary" type="button">Send</button>
                     </div>
                 </div>
             </view-bottombar>
