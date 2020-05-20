@@ -10,7 +10,10 @@ app.beforeShowingPanel = function(nextPanelId) {
         case 'pid_mapp_s3_launch':
             break;
         case 'pid_mapp_s3_main':
-            if (this.bookedTrip.available) this.addBookedTripToMainPanel();
+            if (this.bookedTrip.available) {
+                this.addBookedTripToMainPanel();
+                this.sendSignal(app._signal.out.rtBooked);
+            }
             break;
         case 'pid_mapp_s3_booking_new':
             $('input#set_bookedTrip_time').attr('value', this.getFormattedTime());
@@ -86,5 +89,32 @@ app.initClientModule = function() {
     $('#ui_bookedTrip').hide();
     this.bookingEstimationsUpdater = false;
     this.setHomePanel('pid_mapp_s3_main');
+    //Connect to the signalServer
+    var wsUrl = "ws://" + location.hostname + ":8081";
+    ws.connect(wsUrl, app.handleServerSignal);
+    //Done
     console.info("Client module initialized");
+}
+
+app._signal = {
+    inb: {
+        reload: 'op2car_reload',
+    },
+    out: {
+        rtBooked: 'app2op_rtTripBooked'
+    }
+}
+
+app.handleServerSignal = function(signal) {
+    switch (signal) {
+        case app._signal.inb.reload:
+            app.reload();
+            break;
+        default:
+            console.warn('revieved invalid signal: ' + signal);
+    } 
+}
+
+app.sendSignal = function(signal) {
+    ws.sendSignal(signal);
 }
