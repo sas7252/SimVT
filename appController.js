@@ -263,6 +263,6 @@ var vc = {
         rfCall = rfCall + ");";
 
         //get window and execute statement
-        frontend.getWindow().webContents.executeJavaScript(rfCall);
+        if (!quitNow) frontend.getWindow().webContents.executeJavaScript(rfCall);
     }
 }
