@@ -36,63 +36,66 @@ app._sounds = {
 
 app.beforeShowingPanel = function(nextPanelId) {
     switch (nextPanelId) {
-        case this._panels.home:
-            this.startLiveClock();
+        case app._panels.home:
+            app.startLiveClock();
             //Warning sound for all of these cases:
-        case this._panels.rtOfferS2:
-        case this._panels.rtOfferS3:
-        case this._panels.rtReleaseS2:
-        case this._panels.rtReleaseS3:
-            this._sounds.alert.currentTime = 0;
-            this._sounds.alert.play();
+        case app._panels.rtOfferS2:
+        case app._panels.rtOfferS3:
+        case app._panels.rtReleaseS2:
+        case app._panels.rtReleaseS3:
+            app._sounds.alert.currentTime = 0;
+            app._sounds.alert.play();
             break;
-        case this._panels.count2Online:
-            this.startTimer(5);
-            this.showPanelAfterTimeout(5, this._panels.rtOnline);
+        case app._panels.count2Online:
+            app.startTimer(5);
+            app.showPanelAfterTimeout(5, app._panels.rtOnline);
             break;
-        case this._panels.count2Offline:
-            this.startTimer(5);
-            this.showPanelAfterTimeout(5, this._panels.rtOffline);
+        case app._panels.count2Offline:
+            app.startTimer(5);
+            app.showPanelAfterTimeout(5, app._panels.rtOffline);
             break;
-        case this._panels.rtOffline:
-            this.showHomePanelAfterTimeout(5);
+        case app._panels.rtOffline:
+            app.showHomePanelAfterTimeout(5);
             break;
         default:
     }
 }
 
 app.beforeLeavingPanel = function(leavingPanelId) {
-    if (leavingPanelId == this._panels.home) this.stopLiveClock();
+    if (leavingPanelId == app._panels.home) app.stopLiveClock();
 }
 
 app.initClientModule = function() {
     //Set home panel (important as this will be shown after all inits are done!)
-    this.setHomePanel(this._panels.home);
+    app.setHomePanel(app._panels.home);
     //Apply UI changes for correct sNR (scenario) and iavNr (interaction variant)
     $('.v_onlyS2').hide();
     $('.v_onlyS3').hide();
     $('.v_onlyIAV1').hide();
     $('.v_onlyIAV2').hide();
-    $('.v_onlyS' + this.sNr).show();
-    $('.v_onlyIAV' + this.iavNr).show();
+    $('.v_onlyS' + app.sNr).show();
+    $('.v_onlyIAV' + app.iavNr).show();
     //Get sound objects
-    this._sounds.alert = document.getElementById('sound_alert');
-    this._sounds.count = document.getElementById('sound_count');
-    this._sounds.alert.load();
-    this._sounds.count.load();
+    app._sounds.alert = document.getElementById('sound_alert');
+    app._sounds.count = document.getElementById('sound_count');
+    app._sounds.alert.load();
+    app._sounds.count.load();
+    //Connect to the signalServer
+    var wsUrl = "ws://" + location.hostname + ":8081";
+    ws.connect(wsUrl, app.handleServerSignal);
     //Report init done
     console.info("Client module initialized");
 }
 
 app.acceptRtOffer = function(bool) {
-    var signal = bool ? this._signal.out.rtOfferAccept : this._signal.out.rtOfferDecline;
-    this.sendSignal(signal);
-    bool ? this.showPanel(this._panels.loader) : this.showHomePanel();
+    var signal = bool ? app._signal.out.rtOfferAccept : app._signal.out.rtOfferDecline;
+    app.sendSignal(signal);
+    bool ? app.showPanel(app._panels.loader) : app.showHomePanel();
 }
 
 //SZ2-only: Request TakeBack
 app.confirmUserReleaseRequest = function() {
-    if (this.sNr != 2) {
+    if (app.sNr != 2) {
         console.warn('Method only available in SZ2!');
         return -1;
     }
@@ -101,44 +104,45 @@ app.confirmUserReleaseRequest = function() {
 
 //SZ2-only: Actually send user request
 app.requestRtRelease = function() {
-    if (this.sNr != 2) {
+    if (app.sNr != 2) {
         console.warn('Method only available in SZ2!');
         return -1;
     }
-    app.sendSignal(this._signal.out.rtReleaseReq);
-    app.showPanel(this._panels.loader);
+    app.sendSignal(app._signal.out.rtReleaseReq);
+    app.showPanel(app._panels.loader);
 }
 
 app.answerSZ3ReleaseRequest = function(bool) {
-    if (this.sNr != 3) {
+    if (app.sNr != 3) {
         console.warn('Method only available in SZ3!');
         return -1
     }
-    var signal = bool ? this._signal.out.rtReleaseConfirmYes : this._signal.out.rtReleaseConfirmNo;
+    var signal = bool ? app._signal.out.rtReleaseConfirmYes : app._signal.out.rtReleaseConfirmNo;
     app.sendSignal(signal);
-    bool ? app.showPanel(this._panels.loader) : app.showPanel(this._panels.rtOnline);
+    bool ? app.showPanel(app._panels.loader) : app.showPanel(app._panels.rtOnline);
 }
 
 app.handleServerSignal = function(signal) {
     switch (signal) {
-        case this._signal.inb.reload:
+        case app._signal.inb.reload:
             app.reload();
             break;
-        case this._signal.inb.rtOffer:
+        case app._signal.inb.rtOffer:
             var nextPanel = '';
-            nextPanel = (this.sNr == 2) ? this._panels.rtOfferS2 : ((this.sNr == 3) ? this._panels.rtOfferS3 : '');
+            console.log(this);
+            nextPanel = (app.sNr == 2) ? app._panels.rtOfferS2 : ((app.sNr == 3) ? app._panels.rtOfferS3 : '');
             if (nextPanel == '') {
-                console.warn('Could not determine rtOffer panel for this szenario: ' + this.sNr);
+                console.warn('Could not determine rtOffer panel for this szenario: ' + app.sNr);
                 return -1;
             } else app.showPanel(nextPanel);
             break;
-        case this._signal.inb.rtOnline:
+        case app._signal.inb.rtOnline:
             app.showPanel('pid_carui_s0_rtoffer_countdown2online');
             break;
-        case this._signal.inb.rtRelease:
+        case app._signal.inb.rtRelease:
             app.showPanel('pid_carui_s3_rtrelease_request');
             break;
-        case this._signal.inb.rtOffline:
+        case app._signal.inb.rtOffline:
             app.showPanel('pid_carui_s0_rtrelease_countdown2offline');
             break;
         default:
@@ -163,27 +167,27 @@ app.startTimer = function(tInSeconds, enableSound = true) {
 }
 
 app.showPanelAfterTimeout = function(tInSeconds, panelId) {
-    this._panelAfterTimeout = panelId;
+    app._panelAfterTimeout = panelId;
     setTimeout(function() {
         app.showPanel(app._panelAfterTimeout);
     }, tInSeconds * 1000);
 }
 
 app.showHomePanelAfterTimeout = function(tInSeconds) {
-    this.showPanelAfterTimeout(tInSeconds, app.panels.home);
+    app.showPanelAfterTimeout(tInSeconds, app.panels.home);
 }
 
 app.sendSignal = function(val) {
-    console.info('SHOULD SEND: ' + val);
+    ws.sendSignal(val);
 }
 
 app.startLiveClock = function() {
-    this.stopLiveClock();
-    this._liveClock = setInterval(app.updateLiveClock, 1000);
+    app.stopLiveClock();
+    app._liveClock = setInterval(app.updateLiveClock, 1000);
 }
 
 app.stopLiveClock = function() {
-    clearInterval(this._liveClock);
+    clearInterval(app._liveClock);
 }
 
 app.updateLiveClock = function() {
