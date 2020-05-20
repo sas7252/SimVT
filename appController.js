@@ -32,6 +32,7 @@ global.signals = {
         rtOffer: 'op2car_rtOFFER',
         rtOnline: 'op2car_rtONLINE',
         rtRelease: 'op2car_rtRELEASE',
+        tbOffer: 'op2car_rtRELEASE',
         rtOffline: 'op2car_rtOFFLINE'
     },
     in: {
@@ -146,14 +147,19 @@ function handleIncommingSignal(signal, sender) {
 }
 
 function sendCmdSignalToClients(clientCommand) {
+   // console.log('trying to filter clientCommand ' + clientCommand);
     if (filterSignalToClient(clientCommand)) {
-        console.log("Command signal from admin: " + clientCommand + " Sending to clients now!");
+        //console.log('clientCommand IS VALID');
+        //console.log("Command signal from admin: " + clientCommand + " Sending to clients now!");
         server.sendSignal(clientCommand);
         addMessageToWindowConsole("-OUT-> [" + clientCommand + "] to Client", "green");
     } else {
+        //console.log("clientCommand " + clientCommand + " IS !NOT VALID. Checking if it is servercommand instean");
         if (filterSignalToServer(clientCommand)) {
+            //console.log("clientCommand " + clientCommand + " is actually a SERVER COMMAND");
             addMessageToWindowConsole("(!) [" + clientCommand + "] is a client->server signal and can not be send from the server!", "orange");
         } else {
+            //console.log("clientCommand " + clientCommand + " is not a valid command at all");
             addMessageToWindowConsole("(!) [" + clientCommand + "] is not a valid signal", "orange");
         }
     }
@@ -163,36 +169,48 @@ function addMessageToWindowConsole(message, color) {
     vc.execute('addToConsole', message, color);
 }
 
-function valueExistsInObject(value, object) {
-    Object.keys(object).forEach(function (key) {
-        if (object[key] == value) {
-            return true;
-        }
-    });
+function valueExistsInObject(object, value) {
+    var BreakException = {};
+    try {
+        Object.keys(object).forEach(function (key) {
+            console.log('Is object[' + key + '] => ' + object[key] + ' === ' + value);
+            if (object[key] === value) {
+                console.log('YES!');
+                throw BreakException;
+            }
+        });
+    } catch (e) {
+        if (e !== BreakException) throw e;
+        return true;
+    }
     return false;
 }
 
 function validSignal(direction, signal) {
-    if (direction == 'in') return valueExistsInObject(global.signals.in, signal);
-    if (direction == 'out') return valueExistsInObject(global.signals.out, signal);
+    if (direction === 'in') return valueExistsInObject(global.signals.in, signal);
+    if (direction === 'out') return valueExistsInObject(global.signals.out, signal);
     return false;
 }
 
 function filterSignalToServer(signal) {
-    return validSignal('in', signal);
+    var bool = validSignal('in', signal);
+    //console.log('SIGNAL IN' + signal + ' VALID? : ' + bool);
+    return bool;
 }
 
 function filterSignalToClient(signal) {
-    return validSignal('out', signal);
+    var bool = validSignal('out', signal);
+    //console.log('SIGNAL OUT ' + signal + ' VALID? : ' + bool);
+    return bool;
 }
 
 ipcMain.on('clientCommand', (event, clientCommand) => {
-    //console.log("Recieved command from renderer: " + arg);
+    console.log("Recieved clientCommand [" + clientCommand + "] from renderer process");
     sendCmdSignalToClients(clientCommand);
 })
 
 ipcMain.on('appCommand', (event, appCommand) => {
-    console.log('Executing appCommand [' + appCommand + '] from renderer process');
+    console.log('Recieved appCommand [' + appCommand + '] from renderer process');
     switch (appCommand) {
         case signals.app.exit:
             quitApplication();
