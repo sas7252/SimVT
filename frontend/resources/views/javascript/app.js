@@ -174,3 +174,5 @@ vc.addToConsole = function(message, color) {
     pre.style.color = color;
     this._outlets.console.append(pre);
 }
+
+$().ready(vc.init);
