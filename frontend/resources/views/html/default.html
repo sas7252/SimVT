@@ -21,18 +21,7 @@
             </script>
         </header>
         <div style="-webkit-app-region: none" class="btn-group" role="group" aria-label="Button group with nested dropdown">
-            <a href="#!" class="btn btn-dark">Clear Console</a>
             <a href="#!" class="btn btn-dark">Hide</a>
-
-            <div class="btn-group" role="group">
-                <button id="btnGroupDrop5" type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Window
-        </button>
-                <div class="dropdown-menu" aria-labelledby="btnGroupDrop5">
-                    <a class="dropdown-item" href="#!">Hide</a>
-                    <a class="dropdown-item" href="#!">Close</a>
-                </div>
-            </div>
             <a href="#!" class="btn btn-danger">X</a>
         </div>
 
@@ -47,7 +36,7 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">Scenario</div>
                                 </div>
-                                <select class="form-control">
+                                <select id="ui_dropdown_sNr" class="form-control">
                   <option value="2">SZ2 Stress-Situation (Work&Drive)</option>
                   <option value="3">SZ3 Comfort-Situation (Taxi)</option>
                 </select>
@@ -61,7 +50,7 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">IAV</div>
                                 </div>
-                                <select class="form-control">
+                                <select id="ui_dropdown_iavNr" class="form-control">
                   <option value="1">Text only</option>
                   <option value="2">Voice-Chat</option>
                 </select>
@@ -72,7 +61,7 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">Driver Profile</div>
                                 </div>
-                                <select class="form-control">
+                                <select id="ui_dropdown_dNr" class="form-control">
                   <option value="1">Luca</option>
                   <option value="2">Ezra</option>
                 </select>
@@ -311,9 +300,6 @@
         </div>
     </div>-->
     <script src="../javascript/jquery.js"></script>
-    <script src="../javascript/popper.min.js"></script>
-    <script src="../javascript/bootstrap.min.js"></script>
-    <!--<script src="../javascript/jquery-ui.js"></script>-->
     <script src="../javascript/app.js"></script>
 </body>
 
