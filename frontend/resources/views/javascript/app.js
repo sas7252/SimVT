@@ -1,5 +1,3 @@
-const textviewConsole = document.getElementById('uiTextView_console');
-
 const ipcRenderer = require('electron').ipcRenderer;
 const remote = require('electron').remote;
 
