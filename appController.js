@@ -214,13 +214,13 @@ var vc = {
 
     //Add banners for reference
     banners: {
-        rtOfferDeclined = '.ui_banner_rtoffer_declined',
-        rtOfferAccepted = '.ui_banner_rtoffer_accepted',
-        rtReleaseRequestByUser = '.ui_banner_rtrelease_reqByUser',
-        rtReleaseReqDeclined = '.ui_banner_rtrelease_reqDeclined',
-        rtReleaseReqAccepted = '.ui_banner_rtrelease_reqAccepted',
-        rtReleaseAction = '.ui_banner_rtrelease_actNow',
-        rtBooked = '.ui_banner_rtbooked'
+        rtOfferDeclined: '.ui_banner_rtoffer_declined',
+        rtOfferAccepted: '.ui_banner_rtoffer_accepted',
+        rtReleaseRequestByUser: '.ui_banner_rtrelease_reqByUser',
+        rtReleaseReqDeclined: '.ui_banner_rtrelease_reqDeclined',
+        rtReleaseReqAccepted: '.ui_banner_rtrelease_reqAccepted',
+        rtReleaseAction: '.ui_banner_rtrelease_actNow',
+        rtBooked: '.ui_banner_rtbooked'
     },
 
     //Add execute function
