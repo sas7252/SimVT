@@ -113,6 +113,7 @@ vc.triggerAction = function(actionId) {
             this.executeAppCommand(this._signals.app.notifyCfgUpdated);
             break;
         case this._actions.sendRtOffer:
+            this.hideElement('ui_banner_rtbooked');
             this.sendClientCommand(this._signals.out.rtOffer);
             break;
         case this._actions.sendTbOffer:
