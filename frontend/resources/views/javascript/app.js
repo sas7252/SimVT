@@ -83,6 +83,8 @@ vc.init = function() {
     });
 
     vc.readCurrentSimCfg();
+
+    $('.ui_banner').hide();
 }
 
 $().ready(vc.init);
@@ -116,9 +118,11 @@ vc.triggerAction = function(actionId) {
             this.sendClientCommand(this._signals.out.tbOffer);
             break;
         case this._actions.sendRTOnline:
+            this.showElement('ui_banner_online_actNow',6);
             this.sendClientCommand(this._signals.out.rtOnline);
             break;
         case this._actions.sendRtOffline:
+            this.showElement('ui_banner_rtrelease_actNow',6);
             this.sendClientCommand(this._signals.out.rtOffline);
             break;
         case this._actions.runCustomCommand:
@@ -157,16 +161,16 @@ vc.writeCurrentSimCfg = function() {
 
 //Shows an element (tag) with the specified id (for a limited time))
 vc.showElement = function(elementId, tInSeconds = false) {
-    $(elementId).show();
+    $('#' + elementId).show();
     if (tInSeconds) {
         setTimeout(function() {
-            $(elementId).hide();
+            $('#' + elementId).hide();
         }, tInSeconds * 1000);
     }
 }
 
 vc.hideElement = function(elementId) {
-    $(elementId).hide();
+    $('#' + elementId).hide();
 }
 
 vc.addToConsole = function(message, color) {

@@ -117,23 +117,23 @@ function handleIncommingSignal(signal, sender) {
         addMessageToWindowConsole("<--IN- [" + signal + "] from client " + sender);
         switch (signal) {
             case signals.in.rtOfferAccept:
-                vc.showElement(vc.banners.rtOfferAccepted);
+                vc.execute('showElement', vc.banners.rtOfferAccepted);
                 break;
             case signals.in.rtOfferDecline:
-                vc.showElement(vc.banners.rtOfferDeclined, 5);
+                vc.execute('showElement', vc.banners.rtOfferDeclined, 5);
                 break;
             case singals.in.rtReleaseConfirmNo:
-                vc.showElement(vc.banners.rtReleaseReqDeclined, 5);
+                vc.execute('showElement', vc.banners.rtReleaseReqDeclined, 5);
                 break;
             case signals.in.rtReleaseConfirmYes:
-                vc.showElement(vc.banners.rtReleaseReqAccepted);
+                vc.execute('showElement', vc.banners.rtReleaseReqAccepted);
                 break;
             case signals.in.rtReleaseReq:
-                vc.showElement(vc.banners.rtReleaseRequestByUser);
+                vc.execute('showElement', vc.banners.rtReleaseRequestByUser);
                 break;
             case signals.in.rtBooked:
                 if (global.simCfg.sNr == 3) {
-                    vc.showElement(vc.banners.rtBooked)
+                    vc.execute('showElement', vc.banners.rtBooked)
                 } else {
                     console.log("Recieved invalid signal [" + signals.in.rtBooked + "] (only available in S3)")
                 }
@@ -230,13 +230,14 @@ var vc = {
 
     //Add banners for reference
     banners: {
-        rtOfferDeclined: '.ui_banner_rtoffer_declined',
-        rtOfferAccepted: '.ui_banner_rtoffer_accepted',
-        rtReleaseRequestByUser: '.ui_banner_rtrelease_reqByUser',
-        rtReleaseReqDeclined: '.ui_banner_rtrelease_reqDeclined',
-        rtReleaseReqAccepted: '.ui_banner_rtrelease_reqAccepted',
-        rtReleaseAction: '.ui_banner_rtrelease_actNow',
-        rtBooked: '.ui_banner_rtbooked'
+        rtOfferDeclined: 'ui_banner_rtoffer_declined',
+        rtOfferAccepted: 'ui_banner_rtoffer_accepted',
+        rtOnlineActNow: 'ui_banner_online_actNow',
+        rtReleaseRequestByUser: 'ui_banner_rtrelease_reqByUser',
+        rtReleaseReqDeclined: 'ui_banner_rtrelease_reqDeclined',
+        rtReleaseReqAccepted: 'ui_banner_rtrelease_reqAccepted',
+        rtReleaseAction: 'ui_banner_rtrelease_actNow',
+        rtBooked: 'ui_banner_rtbooked'
     },
 
     //Add execute function
