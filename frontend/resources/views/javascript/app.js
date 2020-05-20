@@ -109,6 +109,7 @@ vc.triggerAction = function(actionId) {
             break;
         case this._actions.publishConfiguration:
             this.writeCurrentSimCfg();
+            this.readCurrentSimCfg();
             this.executeAppCommand(this._signals.app.notifyCfgUpdated);
             break;
         case this._actions.sendRtOffer:

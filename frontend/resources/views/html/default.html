@@ -85,20 +85,29 @@
                 <li class="text-info">Hand out the questionare</li>
                 <li>Explain the situation (story script)</li>
                 <li>Load save state in game</li>
-                <li>Set the destination in game navigation system</li>
+                <li class="ui_onlyS2">Set the destination in game navigation system</li>
+                <li class="ui_onlyS3">Make sure the smartphone app works and can connect</li>
+                <li>Start the CarUI on the tablett (and make sure it connects)</li>
                 <li>Start the camera (recording)</li>
                 <li>Activate the paricipants monitor</li>
               </ul>
             </small>
                     </a>
                     <a href="#" class="list-group-item list-group-item-action">
-                        <h5 class="mb-1">2. Start driving & distracting</h5>
+                        <h5 class="ui_onlyS2 mb-1">2. Start driving & distracting</h5>
+                        <h5 class="ui_onlyS3 mb-1">2. Wait for booking (from the app)</h5>
                         <small>
-              <ul>
+              <ul class="ui_onlyS2">
                 <li>Let participant drive (towards the navs set destination)</li>
-                <li>Boss should call in, when participant on highway</li>
+                <li class="text-warning">Boss should call in, when participant on highway</li>
+              </ul>
+              <ul class="ui_onlyS3">
+                <li>The participant will open the app and book a trip. You will see the confirmation below</li>
               </ul>
             </small>
+            <div id="ui_banner_rtbooking" class="ui_banner alert alert-dismissible fade show alert-info" role="alert">
+                User just booked his trip. <strong>MOVE ON TO NEXT PANEL</strong>
+            </div>
                     </a>
                     <a href="#" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
@@ -107,16 +116,13 @@
                         </div>
                         <small>
               <ul>
-                <li>Observe the participant. As soon as he isn´t focused on the road anymore</li>
+                <li class="ui_onlyS2">Observe the participant. As soon as he isn´t focused on the road anymore</li>
                 <li>Offer remote takeover by clicking the button. </li>
                 <li class="text-warning">Wait for the participants resonse before you move on!</li>
                 <li>(You may send more than one request)</li>
               </ul>
             </small>
                         <div id="ui_banner_rtoffer_declined" class="ui_banner  alert alert-dismissible fade show alert-danger" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
                             <strong>DISMISSED:</strong> User dismissed your offer
                         </div>
                         <div id="ui_banner_rtoffer_accepted" class="ui_banner  alert alert-dismissible fade show alert-success" role="alert">
@@ -125,7 +131,7 @@
                     </a>
                     <a href="#" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">4. Take over & your driving</h5>
+                            <h5 class="mb-1">4. Take over [YOU DRIVE!]</h5>
                             <button id="ui_btn_sendRtOnline" class="btn btn-sm btn-warning">Take over Vehicle</button>
                         </div>
                         <small>
@@ -133,6 +139,7 @@
                 <li>Click the take over button, then Immediatly:</li>
                 <li class="text-warning">disconnect the participants steering wheel & pedals! (5 Seconds timer)</li>
                 <li>Continue driving using the keyboard</li>
+                <li class="ui_onlyS2">Be prepared, that the user may request back control any time!</li>
               </ul>
             </small>
                         <div id="ui_banner_online_actNow" class="ui_banner alert alert-dismissible fade show alert-warning" role="alert">
@@ -141,13 +148,16 @@
                     </a>
                     <a href="#" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">5. Wait for takeback OR offer takeback</h5>
+                            <h5 class="mb-1">5. <span class="ui_onlyS2">Wait for takeback-request /</span> Offer takeback</h5>
                             <button id="ui_btn_sendTbOffer" class="btn btn-sm btn-info">Send Take-Back Offer</button>
                         </div>
                         <small>
             <ul>
-              <li>Either wait for the user to issue a takeback request.</li>
-              <li>Or issue one yourself when you see that the participant is no longer distracted.</li>
+              <li class="ui_onlyS2">Either wait for the user to issue a takeback request, or:</li>
+              <li>Issue a takeback request 
+                  <span class="ui_onlyS2">when you see that the participant is no longer distracted</span>
+                  <span class="ui_onlyS3">once you have reached the destination</span>.
+                </li>
             </ul>
           </small>
                         <div id="ui_banner_rtrelease_reqByUser" class="ui_banner  alert alert-dismissible fade show alert-info" role="alert">
@@ -162,7 +172,7 @@
                     </a>
                     <a href="#" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">6. Give back control & observe further driving</h5>
+                            <h5 class="mb-1">6. Give back control <span class="ui_onlyS2">& observe further driving</span></h5>
                             <button id="ui_btn_sendRtOffline" class="btn btn-sm btn-warning">Release vehicle</button>
                         </div>
                         <small>
@@ -200,14 +210,11 @@
                     <li>Update the settings according to your next setup</li>
                     <li>Click the button to reload all clients</li>
                   </ul>
+                  <br><br>
     </small>
                     </a>
                 </div>
             </view-szdetail>
-            <view-szdetail class="sz-view sz3">
-
-            </view-szdetail>
-
             <view-bottombar class="left">
                 Status-Bar
             </view-bottombar>
