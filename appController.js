@@ -122,7 +122,7 @@ function handleIncommingSignal(signal, sender) {
             case signals.in.rtOfferDecline:
                 vc.execute('showElement', vc.banners.rtOfferDeclined, 5);
                 break;
-            case singals.in.rtReleaseConfirmNo:
+            case signals.in.rtReleaseConfirmNo:
                 vc.execute('showElement', vc.banners.rtReleaseReqDeclined, 5);
                 break;
             case signals.in.rtReleaseConfirmYes:
