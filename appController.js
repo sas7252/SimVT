@@ -145,13 +145,13 @@ function handleIncommingSignal(signal, sender) {
     }
 }
 
-function sendCmdSignalToClients(signal) {
+function sendCmdSignalToClients(clientCommand) {
     if (filterSignalToClient(clientCommand)) {
         console.log("Command signal from admin: " + clientCommand + " Sending to clients now!");
         server.sendSignal(clientCommand);
         addMessageToWindowConsole("-OUT-> [" + clientCommand + "] to Client", "green");
     } else {
-        if (filterSignalToServer(arg)) {
+        if (filterSignalToServer(clientCommand)) {
             addMessageToWindowConsole("(!) [" + clientCommand + "] is a client->server signal and can not be send from the server!", "orange");
         } else {
             addMessageToWindowConsole("(!) [" + clientCommand + "] is not a valid signal", "orange");
@@ -164,7 +164,7 @@ function addMessageToWindowConsole(message, color) {
 }
 
 function valueExistsInObject(value, object) {
-    Object.keys(object).forEach(function(key) {
+    Object.keys(object).forEach(function (key) {
         if (object[key] == value) {
             return true;
         }
@@ -192,21 +192,19 @@ ipcMain.on('clientCommand', (event, clientCommand) => {
 })
 
 ipcMain.on('appCommand', (event, appCommand) => {
-    if (appCommandValid(appCommand)) {
-        console.log('Executing appCommand [' + appCommand + '] from renderer process');
-        switch (appCommand) {
-            case signals.app.exit:
-                quitApplication();
-                break;
-            case signals.app.hide:
-                hideWindow();
-                break;
-            case signals.app.notifyCfgUpdated:
-                sendCmdSignalToClients(signals.out.reload);
-                break;
-            default:
-                throw "Invalid appCommand: " + appCommand;
-        }
+    console.log('Executing appCommand [' + appCommand + '] from renderer process');
+    switch (appCommand) {
+        case signals.app.exit:
+            quitApplication();
+            break;
+        case signals.app.hide:
+            hideWindow();
+            break;
+        case signals.app.notifyCfgUpdated:
+            sendCmdSignalToClients(signals.out.reload);
+            break;
+        default:
+            throw "Invalid appCommand: " + appCommand;
     }
 });
 
@@ -224,7 +222,7 @@ var vc = {
     },
 
     //Add execute function
-    execute: function(method, arg1, arg2 = false) {
+    execute: function (method, arg1, arg2 = false) {
         //build the actual function call
         var rfCall; // Remote function call
         rfCall = "vc." + method + "('" + arg1 + "'";
