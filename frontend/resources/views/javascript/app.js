@@ -1,7 +1,7 @@
 const textviewConsole = document.getElementById('uiTextView_console');
 
-const { ipcRenderer } = require('electron');
-const { remote } = require('electron').remote;
+const ipcRenderer = require('electron').ipcRenderer;
+const remote = require('electron').remote;
 
 __f = function() {
     throw "implementation missing";
