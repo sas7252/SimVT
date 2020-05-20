@@ -79,3 +79,12 @@ The project structure may not be self explanatory. Therefore we would like to gi
 * Veronica Hartl
 
 ## License
+
+We have not yet decided on a license
+
+### Included works of others
+
+* Used icons (as well as the app icon) are from [Icons8](https://icons8.com)
+* We also used these stock photos from [Pixabay](https://pixabay.com) as driver-personas:
+  * https://pixabay.com/photos/beautiful-girl-smiling-young-woman-1687955/ (-> "Elenor Kaiser")
+  * https://pixabay.com/photos/beard-face-man-model-mustache-1845166/ (-> "Jan Mayer")
