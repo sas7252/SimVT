@@ -58,19 +58,19 @@ function stop() {
 
 var driverProfile1 = {
     "shortname": "Elenor",
-    "fullname": "Elenor Irgendwas",
+    "fullname": "Elenor Kaiser",
     "pictureUrl": "../shared/assets/images/Elenor.png",
     "age": 26,
     "experience": "6 Jahre",
-    "hobbies": "lesen"
+    "hobbies": "Reiten, Lesen, Reisen"
 }
 
 var driverProfile2 = {
-    "shortname": "Luca",
-    "fullname": "Luca Gamor",
-    "pictureUrl": "../shared/assets/images/Luca.png",
-    "age": 24,
-    "experience": "4 Jahre",
-    "hobbies": "gaming"
+    "shortname": "Jan",
+    "fullname": "Jan Mayer",
+    "pictureUrl": "../shared/assets/images/Jan.png",
+    "age": 27,
+    "experience": "9 Jahre",
+    "hobbies": "Kochen, Fußball, Gaming"
 }
 
