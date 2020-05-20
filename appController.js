@@ -173,9 +173,9 @@ function valueExistsInObject(object, value) {
     var BreakException = {};
     try {
         Object.keys(object).forEach(function (key) {
-            console.log('Is object[' + key + '] => ' + object[key] + ' === ' + value);
+            //console.log('Is object[' + key + '] => ' + object[key] + ' === ' + value);
             if (object[key] === value) {
-                console.log('YES!');
+                //console.log('YES!');
                 throw BreakException;
             }
         });
