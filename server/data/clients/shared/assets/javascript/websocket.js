@@ -7,84 +7,45 @@ __f = function() {
 }
 
 let ws = {
-    init: null,
-    connect: null,
-    disconnect: null,
-    sendMessage: null,
-    ping: null,
-
-    enableFilter: false,
-
-    __delegate: null,
-    __filter: null,
-    __ws: null,
-
-    __onConnect: __f,
-    __onClose: __f,
-    __onMessage: __f,
-    __onError: __f
+    __connected: false
 }
 
 ws.__onConnect = function(evt) {
+    this.__connected = true;
     console.info('Sucessfully connected to ' + this.__serverAddress);
 }
 
 ws.__onClose = function(evt) {
-
+    console.warn('LOST CONNECTION TO SERVER');
+    alert("Server is not reponding");
+    this.__connected = false;
 }
 
 ws.__onMessage = function(evt) {
-    var shouldDelegate = true
-    if (this.enableFilter) shouldDelegate = this.filter(evt.data);
-    if (shouldDelegate) this.__delegate(evt.data);
+    this.__delegateFunction(evt.data);
 }
 
 ws.__onError = function(evt) {
-
+    console.error('WSClient Error: ' + evt);
 }
 
-ws.connect = function(serverAddress) {
-    this.__serverAddress = serverAddress;
-    this.__ws = new WebSocket(serverAddress);
-    this.__ws.onopen = this.__onConnect;
-    this.__ws.onclose = this.__onClose;
-    this.__ws.onmessage = this.__onMessage;
-    this.__ws.onerror = this.__onError;
-}
-
-ws.enableFilter = function(bool) {
-    this.__filter = bool
-}
-
-ws.setMessageDelegate = function(messageDelegate) {
-    this.__delegate = messageDelegate;
-}
-
-ws.setMessageFilter = function(filter) {
-    this.__filter = filter;
+ws.connect = function(serverAddress, delegateFunction) {
+    if (!this.__connected) {
+        this.__serverAddress = serverAddress;
+        this.__delegate = delegateFunction;
+        this.__ws = new WebSocket(serverAddress);
+        this.__ws.onopen = this.__onConnect;
+        this.__ws.onclose = this.__onClose;
+        this.__ws.onmessage = this.__onMessage;
+        this.__ws.onerror = this.__onError;
+    }
 }
 
 ws.disconnect = function() {
     this.__ws.close();
 }
 
-ws.sendMessage = function(message) {
-    var shouldSend = true;
-    if (this.enableFilterMsgOut) {
-        shouldSend = this.filterOutgoingMessage(message) //websocket.send(message);
-    } else {
-        console.warn()
-    }
-    if (shouldSend) {
-        websocket.send(message);
-    } else {
-        console.warn("Could not send message. (Not on outgoing whitelist)")
-    }
+ws.sendSignal = function(signal) {
+    console.log('Sending signal [' + signal + '] to server');
+    this._ws.send(signal);
 }
-
-//Overwrite / Connect App functions
-app.connectToSignalServer = function = {
-    ws.connect(this.__signalServerURL);
-}
-
-app.sendSignal = ws.sendMessage;
