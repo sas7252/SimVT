@@ -46,6 +46,7 @@ view-bottombar {
 
 view-bottombar.left {
     box-shadow: -3px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    display: none;
 }
 
 view-bottombar.right {
@@ -92,11 +93,10 @@ window-title label {
 
 view-szdetail {
     display: block;
-    overflow: scroll;
 }
 
 view-szdetail.sz-view {
-    overflow: scroll;
+    overflow-y: hidden;
 }
 
 window-title label.subtext {
