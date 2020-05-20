@@ -58,8 +58,8 @@ vc.init = function() {
     vc._outlets.console = $('#ui_consoleView');
     vc._outlets.txtfCmd = $('#ui_textfield_commandInput');
     vc._outlets.dropdown_sNr = $('#ui_dropdown_sNr');
-    vc._outlets.dropdown_iavNr = $('#ui_dropdown_sNr');
-    vc._outlets.dropdown_dNr = $('#ui_dropdown_sNr');
+    vc._outlets.dropdown_iavNr = $('#ui_dropdown_iavNr');
+    vc._outlets.dropdown_dNr = $('#ui_dropdown_dNr');
     vc._outlets.btn_runCmd = $('#ui_btn_runCmd');
 
     //Wire up the buttons
@@ -135,9 +135,11 @@ vc.triggerAction = function(actionId) {
 vc.readCurrentSimCfg = function() {
     var simCfg = remote.getGlobal('simCfg');
 
-    this._outlets.dropdown_sNr.val(simCfg.sNr);
-    this._outlets.dropdown_iavNr.val(simCfg.iavNr);
-    this._outlets.dropdown_dNr.val(simCfg.dNr);
+    //console.log(simCfg.sNr);
+
+    vc._outlets.dropdown_sNr.val(simCfg.sNr);
+    vc._outlets.dropdown_iavNr.val(simCfg.iavNr);
+    vc._outlets.dropdown_dNr.val(simCfg.dNr);
 
     //Adapt view
     var sNr = remote.getGlobal('simCfg').sNr;
