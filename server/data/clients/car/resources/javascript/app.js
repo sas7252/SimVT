@@ -38,7 +38,8 @@ app.beforeShowingPanel = function(nextPanelId) {
     switch (nextPanelId) {
         case app._panels.home:
             app.startLiveClock();
-            //Warning sound for all of these cases:
+            break;
+        //Warning sound for all of these cases:
         case app._panels.rtOfferS2:
         case app._panels.rtOfferS3:
         case app._panels.rtReleaseS2:
