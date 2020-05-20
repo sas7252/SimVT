@@ -118,10 +118,13 @@ vc.triggerAction = function(actionId) {
             this.sendClientCommand(this._signals.out.tbOffer);
             break;
         case this._actions.sendRTOnline:
+            this.hideElement('ui_banner_rtoffer_accepted');
             this.showElement('ui_banner_online_actNow',6);
             this.sendClientCommand(this._signals.out.rtOnline);
             break;
         case this._actions.sendRtOffline:
+            this.hideElement('ui_banner_rtrelease_reqByUser');
+            this.hideElement('ui_banner_rtrelease_reqAccepted');
             this.showElement('ui_banner_rtrelease_actNow',6);
             this.sendClientCommand(this._signals.out.rtOffline);
             break;
