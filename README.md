@@ -1,7 +1,8 @@
-# STUD-2020-Sim-VT
+# Sim-VT (BA sas7252)
 
-Sim-VT is a simulation environment used in our (see [People](#people--background)) study about the interaction between a teleoperator and  an actual driver in a remote vehicle operation scenario. The simulation basically consists of two webclients and a 'backend'. One webclient mocks a smarphone app that can be used to request/order remote vehicle operation service, while the other weblient acts as the cars infotainment screen. Communication between the apps and the server works via websockets. The 'backend' it self has a nice ui to view the network messages and send commands to the clients. 
+Sim-VT is a simulation environment originally for a univiersity research project about vehicle teleoperation in 2020 (See [here](https://github.com/THI-SS2020-STUD-G6/SimVT) for more info). The simulation basically consists of two webclients and a 'backend'. One webclient mocks a smarphone app that can be used to request/order remote vehicle operation service, while the other weblient acts as the cars infotainment screen. Communication between the apps and the server works via websockets. The 'backend' it self has a nice ui to view the network messages and send commands to the clients. 
 
+This repository contains a version of this software that has been modified for use in a user study that i conducted during my bachelor thesis.
 
 ## What does this project contain/offer?
 * (Mocked) __Smartphone-App "DriveMe"__ for ordering remote vehicle operation services.
