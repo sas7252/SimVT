@@ -1,18 +1,18 @@
 {
-  "name": "studx2020-sim-vt",
-  "fullname": "STUDX2020 Vehicle Teleoperation Simulation Environment",
-  "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
-  "scripts": {
-    "start": "electron ."
-  },
-  "author": "Samuel Schreiber (sas7252@thi.de)",
-  "license": "ISC",
-  "dependencies": {
-    "electron": "^8.5.2",
-    "express": "^4.17.1",
-    "jquery": "^3.5.1",
-    "ws": "^7.2.3"
-  }
+    "name": "ba-sas7252-sim-vt",
+    "fullname": "sas7252 Vehicle Teleoperation Simulation Environment",
+    "version": "2.0.0",
+    "description": "",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron ."
+    },
+    "author": "Samuel Schreiber (sas7252@thi.de)",
+    "license": "ISC",
+    "dependencies": {
+        "electron": "^8.5.2",
+        "express": "^4.17.1",
+        "jquery": "^3.5.1",
+        "ws": "^7.2.3"
+    }
 }
