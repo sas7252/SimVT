@@ -29,12 +29,26 @@ var vc = viewController = {
     _actions: {
         exitApp: 'vca_quit',
         hideApp: 'vca_hide',
+        publishConfiguration: 'vca_publishCfg',
+        runCustomCommand: 'vca_runCmd',
+
+        //New Actions
+        sendDriverAlert: 'vca_sendDriverAlert',
+        sendDriverEmergency: 'vca_sendDriverEmergency',
+        sendCallAccept: 'vca_sendCallAccept',
+        sendRVTOStartRequest: 'vca_sendRvtoRqStart',
+        sendRVTOStopRequest: 'vca_sendRvtoRqStop',
+        sendRVTOStart: 'vca_sendRvtoStart',
+        sendRVTOStop: 'vca_sendRvtoStop',
+
+        /*
+        //Old Actions
         sendRtOffer: 'vca_sendRtOffer',
         sendTbOffer: 'vca_sendTbOffer',
         sendRTOnline: 'vca_sendRtOnline',
-        sendRtOffline: 'vca_sendRtOffline',
-        publishConfiguration: 'vca_publishCfg',
-        runCustomCommand: 'vca_runCmd'
+        sendRtOffline: 'vca_sendRtOffline'
+        */
+
     },
 
     //Methods
@@ -63,15 +77,15 @@ vc.init = function() {
     vc._outlets.btn_runCmd = $('#ui_btn_runCmd');
 
     //Wire up the buttons
-    $('#ui_btn_exitApp').click(function() {vc.triggerAction(vc._actions.exitApp)});
-    $('#ui_btn_hideApp').click(function() {vc.triggerAction(vc._actions.hideApp)});
-    $('#ui_btn_sendRtOffer').click(function() {vc.triggerAction(vc._actions.sendRtOffer)});
-    $('#ui_btn_sendTbOffer').click(function() {vc.triggerAction(vc._actions.sendTbOffer)});
-    $('#ui_btn_sendRtOnline').click(function() {vc.triggerAction(vc._actions.sendRTOnline)});
-    $('#ui_btn_sendRtOffline').click(function() {vc.triggerAction(vc._actions.sendRtOffline)});
-    $('#ui_btn_resetCfg').click(function() {vc.triggerAction(vc._actions.publishConfiguration)});
-    $('#ui_btn_applyCfg').click(function() {vc.triggerAction(vc._actions.publishConfiguration)});
-    vc._outlets.btn_runCmd.click(function() {vc.triggerAction(vc._actions.runCustomCommand)});
+    $('#ui_btn_exitApp').click(function() { vc.triggerAction(vc._actions.exitApp) });
+    $('#ui_btn_hideApp').click(function() { vc.triggerAction(vc._actions.hideApp) });
+    $('#ui_btn_sendRtOffer').click(function() { vc.triggerAction(vc._actions.sendRtOffer) });
+    $('#ui_btn_sendTbOffer').click(function() { vc.triggerAction(vc._actions.sendTbOffer) });
+    $('#ui_btn_sendRtOnline').click(function() { vc.triggerAction(vc._actions.sendRTOnline) });
+    $('#ui_btn_sendRtOffline').click(function() { vc.triggerAction(vc._actions.sendRtOffline) });
+    $('#ui_btn_resetCfg').click(function() { vc.triggerAction(vc._actions.publishConfiguration) });
+    $('#ui_btn_applyCfg').click(function() { vc.triggerAction(vc._actions.publishConfiguration) });
+    vc._outlets.btn_runCmd.click(function() { vc.triggerAction(vc._actions.runCustomCommand) });
 
     //Add eevent for: enter key on textfield -> send now
     vc._outlets.txtfCmd.keyup(function(event) {
@@ -112,24 +126,54 @@ vc.triggerAction = function(actionId) {
             this.readCurrentSimCfg();
             this.executeAppCommand(this._signals.app.notifyCfgUpdated);
             break;
-        case this._actions.sendRtOffer:
-            this.hideElement('ui_banner_rtbooked');
-            this.sendClientCommand(this._signals.out.rtOffer);
+
+            //New actions handlerss
+        case this._actions.sendDriverAlert:
+            //this.showElement('ui_banner_online_actNow',6);
+            this.sendClientCommand(this._signals.out.launchAlert);
             break;
-        case this._actions.sendTbOffer:
-            this.sendClientCommand(this._signals.out.tbOffer);
+        case this._actions.sendDriverEmergency:
+            //this.showElement('ui_banner_online_actNow',6);
+            this.sendClientCommand(this._signals.out.launchEmergency);
             break;
-        case this._actions.sendRTOnline:
-            this.hideElement('ui_banner_rtoffer_accepted');
-            this.showElement('ui_banner_online_actNow',6);
-            this.sendClientCommand(this._signals.out.rtOnline);
+        case this._actions.sendCallAccept:
+            //this.showElement('ui_banner_online_actNow');
+            this.sendClientCommand(this._signals.out.callConnected);
             break;
-        case this._actions.sendRtOffline:
-            this.hideElement('ui_banner_rtrelease_reqByUser');
-            this.hideElement('ui_banner_rtrelease_reqAccepted');
-            this.showElement('ui_banner_rtrelease_actNow',6);
-            this.sendClientCommand(this._signals.out.rtOffline);
+        case this._actions.sendRVTOStartRequest:
+            this.sendClientCommand(this._signals.out.rvtoRequest_start);
             break;
+        case this._actions.sendRVTOStopRequest:
+            this.sendClientCommand(this._signals.out.rvtoRequest_end);
+            break;
+        case this._actions.sendRVTOStart:
+            this.sendClientCommand(this._signals.out.rvtoConfirm_start);
+            break;
+        case this._actions.sendRVTOStop:
+            this.sendClientCommand(this._signals.out.rvtoConfirm_end);
+            break;
+
+            /*    
+            //Old (soon to be removed) action handlers
+            case this._actions.sendRtOffer:
+                this.hideElement('ui_banner_rtbooked');
+                this.sendClientCommand(this._signals.out.rtOffer);
+                break;
+            case this._actions.sendTbOffer:
+                this.sendClientCommand(this._signals.out.tbOffer);
+                break;
+            case this._actions.sendRTOnline:
+                this.hideElement('ui_banner_rtoffer_accepted');
+                this.showElement('ui_banner_online_actNow',6);
+                this.sendClientCommand(this._signals.out.rtOnline);
+                break;
+            case this._actions.sendRtOffline:
+                this.hideElement('ui_banner_rtrelease_reqByUser');
+                this.hideElement('ui_banner_rtrelease_reqAccepted');
+                this.showElement('ui_banner_rtrelease_actNow',6);
+                this.sendClientCommand(this._signals.out.rtOffline);
+                break;
+            */
         case this._actions.runCustomCommand:
             //SUGGESTION: Should maybe add something like disable the button until this action is complete?
             var customCommand = vc._outlets.txtfCmd.val();
@@ -185,4 +229,3 @@ vc.addToConsole = function(message, color) {
     pre.style.color = color;
     this._outlets.console.append(pre);
 }
-
