@@ -30,19 +30,46 @@ global.appinfo = {
 global.signals = {
     out: {
         reload: 'op2car_reload',
+
+        //New Outgoing signals
+        launchAlert: 'op2car_alertDriver-warning',
+        launchEmergency: 'op2car_alertDriver-emergency',
+        callConnected: 'op2car_call-estab',
+        rvtoRequest_start: 'op2car_rvto-preq-start',
+        rvtoConfirm_start: 'op2car_rvto-ack-start',
+        rvtoRequest_end: 'op2car_rvto-preq-end',
+        rvtoConfirm_end: 'op2car_rvto-ack-end',
+
+        /*
+        //Old Outbound Signals (soon to be removed)
         rtOffer: 'op2car_rtOFFER',
         rtOnline: 'op2car_rtONLINE',
         rtRelease: 'op2car_rtRELEASE',
         tbOffer: 'op2car_rtRELEASE',
         rtOffline: 'op2car_rtOFFLINE'
+        */
     },
     in: {
+
+        //New incomming signals
+        dismissWarning: 'car2op_cancel-warning',
+        dismissEmergency: 'car2op_cancel-emergency',
+        callIncomming: 'car2op_call-start',
+        callEnded: 'car2op_call-end',
+        stopRVTO_yes: 'car2op_rvto-stop-yes',
+        stopRVTO_no: 'car2op_rvto-stop-no',
+        rtvoAccepted: 'car2op_rvto-start-accept',
+        rtvoDeclined: 'car2op_rvto-start-decline',
+
+        /*
+        //Old Inbound Signals (soon to be removed)
         rtOfferAccept: 'car2op_rtOFFER-accept',
         rtOfferDecline: 'car2op_rtOFFER-decline',
         rtReleaseConfirmNo: 'car2op_rtRELEASE-confirm:no',
         rtReleaseConfirmYes: 'car2op_rtRELEASE-confirm:yes',
         rtReleaseReq: 'car2op_rtRELEASE-request',
         rtBooked: 'app2op_rtTripBooked'
+        */
     },
     app: {
         exit: 'appCM_exit',
@@ -121,28 +148,48 @@ function handleIncommingSignal(signal, sender) {
     if (filterSignalToServer(signal)) {
         addMessageToWindowConsole("<--IN- [" + signal + "] from client " + sender);
         switch (signal) {
-            case signals.in.rtOfferAccept:
-                vc.execute('showElement', vc.banners.rtOfferAccepted);
+            case signals.in.dismissWarning:
                 break;
-            case signals.in.rtOfferDecline:
-                vc.execute('showElement', vc.banners.rtOfferDeclined, 5);
+            case signals.in.dismissEmergency:
                 break;
-            case signals.in.rtReleaseConfirmNo:
-                vc.execute('showElement', vc.banners.rtReleaseReqDeclined, 5);
+            case signals.in.callIncomming:
                 break;
-            case signals.in.rtReleaseConfirmYes:
-                vc.execute('showElement', vc.banners.rtReleaseReqAccepted);
+            case signals.in.callEnded:
                 break;
-            case signals.in.rtReleaseReq:
-                vc.execute('showElement', vc.banners.rtReleaseRequestByUser);
+            case signals.in.stopRVTO_yes:
                 break;
-            case signals.in.rtBooked:
-                if (global.simCfg.sNr == 3) {
-                    vc.execute('showElement', vc.banners.rtBooked)
-                } else {
-                    console.log("Recieved invalid signal [" + signals.in.rtBooked + "] (only available in S3)")
-                }
+            case signals.in.stopRVTO_no:
                 break;
+            case signals.in.rtvoAccepted:
+                break;
+            case signals.in.rtvoDeclined:
+                break;
+
+                /*
+                //Old Signal Handling
+                case signals.in.rtOfferAccept:
+                    vc.execute('showElement', vc.banners.rtOfferAccepted);
+                    break;
+                case signals.in.rtOfferDecline:
+                    vc.execute('showElement', vc.banners.rtOfferDeclined, 5);
+                    break;
+                case signals.in.rtReleaseConfirmNo:
+                    vc.execute('showElement', vc.banners.rtReleaseReqDeclined, 5);
+                    break;
+                case signals.in.rtReleaseConfirmYes:
+                    vc.execute('showElement', vc.banners.rtReleaseReqAccepted);
+                    break;
+                case signals.in.rtReleaseReq:
+                    vc.execute('showElement', vc.banners.rtReleaseRequestByUser);
+                    break;
+                case signals.in.rtBooked:
+                    if (global.simCfg.sNr == 3) {
+                        vc.execute('showElement', vc.banners.rtBooked)
+                    } else {
+                        console.log("Recieved invalid signal [" + signals.in.rtBooked + "] (only available in S3)")
+                    }
+                    break;
+                */
         }
     } else if (signal == "CLIENT_CONNECTED") {
         addMessageToWindowConsole("<----> CONNECTED " + sender, "blue");
@@ -152,7 +199,7 @@ function handleIncommingSignal(signal, sender) {
 }
 
 function sendCmdSignalToClients(clientCommand) {
-   // console.log('trying to filter clientCommand ' + clientCommand);
+    // console.log('trying to filter clientCommand ' + clientCommand);
     if (filterSignalToClient(clientCommand)) {
         //console.log('clientCommand IS VALID');
         //console.log("Command signal from admin: " + clientCommand + " Sending to clients now!");
@@ -177,7 +224,7 @@ function addMessageToWindowConsole(message, color) {
 function valueExistsInObject(object, value) {
     var BreakException = {};
     try {
-        Object.keys(object).forEach(function (key) {
+        Object.keys(object).forEach(function(key) {
             //console.log('Is object[' + key + '] => ' + object[key] + ' === ' + value);
             if (object[key] === value) {
                 //console.log('YES!');
@@ -235,6 +282,10 @@ var vc = {
 
     //Add banners for reference
     banners: {
+        dismissedWarning: 'ui_banner_monitor_dismissedWarning',
+        dismissedEmergency: 'ui_banner_monitor_dismissedEmergency',
+
+
         rtOfferDeclined: 'ui_banner_rtoffer_declined',
         rtOfferAccepted: 'ui_banner_rtoffer_accepted',
         rtOnlineActNow: 'ui_banner_online_actNow',
@@ -246,7 +297,7 @@ var vc = {
     },
 
     //Add execute function
-    execute: function (method, arg1, arg2 = false) {
+    execute: function(method, arg1, arg2 = false) {
         //build the actual function call
         var rfCall; // Remote function call
         rfCall = "vc." + method + "('" + arg1 + "'";
