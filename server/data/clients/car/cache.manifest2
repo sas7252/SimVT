@@ -1,6 +1,6 @@
 CACHE MANIFEST
-# CarUI (for DriveMe) WebApp (VT-Sim Component)
-# Version 0.0.1
+# SimVT > CarUI WebApp (for sas7252-BA)
+# Version 2.0.0
 
 ./index.html
 ./resources/*

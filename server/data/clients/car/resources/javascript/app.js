@@ -1,31 +1,39 @@
 app._panels = {
-    start: 'pid_carui_s0_start',
-    home: 'pid_carui_s0_home',
-    loader: 'pid_carui_s0_loader',
-    rtOfferS2: 'pid_carui_s2_rtoffer_disctracted',
-    rtOfferS3: 'pid_carui_s3_rtoffer_bookedtrip',
-    count2Online: 'pid_carui_s0_rtoffer_countdown2online',
-    rtOnline: 'pid_carui_s0_rtonline',
-    rtReleaseS2: 'pid_carui_s2_rtrelease_confirm',
-    rtReleaseS3: 'pid_carui_s3_rtrelease_request',
-    count2Offline: 'pid_carui_s0_rtrelease_countdown2offline',
-    rtOffline: 'pid_carui_s0_rtoffline',
+    start: 'pid_carui_start',
+    home: 'pid_carui_home',
+    loader: 'pid_carui_loader',
+    driverWarning: 'pid_carui_driverWarning',
+    driverEmergency: 'pid_carui_driverEmergency',
+    callConnecting: 'pid_carui_callConnecting',
+    callConnected: 'pid_carui_callConnected',
+    rvtoConfirmStart: 'pid_carui_rvto-confirm-start',
+    rvtoActive: 'pid_carui_rvto-active',
+    rvtoConfirmEnd: 'pid_carui_rvto-confirm-end',
+    rvtoCountdownStart: 'pid_carui_rvto-countdown-start',
+    rvtoCountdownEnd: 'pid_carui_rvto-countdown-end',
+    rvtoDone: 'pid_carui_rvto-done'
 }
 
 app._signal = {
     inb: {
         reload: 'op2car_reload',
-        rtOffer: 'op2car_rtOFFER',
-        rtOnline: 'op2car_rtONLINE',
-        rtRelease: 'op2car_rtRELEASE',
-        rtOffline: 'op2car_rtOFFLINE'
+        launchAlert: 'op2car_alertDriver-warning',
+        launchEmergency: 'op2car_alertDriver-emergency',
+        callConnected: 'op2car_call-estab',
+        rvtoRequest_start: 'op2car_rvto-preq-start',
+        rvtoConfirm_start: 'op2car_rvto-ack-start',
+        rvtoRequest_end: 'op2car_rvto-preq-end',
+        rvtoConfirm_end: 'op2car_rvto-ack-end',
     },
     out: {
-        rtOfferAccept: 'car2op_rtOFFER-accept',
-        rtOfferDecline: 'car2op_rtOFFER-decline',
-        rtReleaseConfirmNo: 'car2op_rtRELEASE-confirm:no',
-        rtReleaseConfirmYes: 'car2op_rtRELEASE-confirm:yes',
-        rtReleaseReq: 'car2op_rtRELEASE-request',
+        dismissWarning: 'car2op_cancel-warning',
+        dismissEmergency: 'car2op_cancel-emergency',
+        startCall: 'car2op_call-start',
+        stopCall: 'car2op_call-end',
+        stopRVTO_yes: 'car2op_rvto-stop-yes',
+        stopRVTO_no: 'car2op_rvto-stop-no',
+        acceptRVTO: 'car2op_rvto-start-accept',
+        declineRVTO: 'car2op_rvto-start-decline'
     }
 }
 
@@ -37,25 +45,36 @@ app._sounds = {
 app.beforeShowingPanel = function(nextPanelId) {
     switch (nextPanelId) {
         case app._panels.home:
-            app.startLiveClock();
+            //app.startLiveClock();
             break;
-        //Warning sound for all of these cases:
-        case app._panels.rtOfferS2:
-        case app._panels.rtOfferS3:
-        case app._panels.rtReleaseS2:
-        case app._panels.rtReleaseS3:
-            app._sounds.alert.currentTime = 0;
+        case app._panels.start:
+            //
+            break;
+        case app._panels.loader:
+            break;
+        case app._panels.driverWarning: 
             app._sounds.alert.play();
             break;
-        case app._panels.count2Online:
-            app.startTimer(5);
-            app.showPanelAfterTimeout(5, app._panels.rtOnline);
+        case app._panels.driverEmergency:
+            app._sounds.alert.play();
+            //TODO: Start countound for autodconnect here
             break;
-        case app._panels.count2Offline:
+        case app._panels.callConnecting: break;
+            //app._sounds.phoneDialing.play();
+        case app._panels.callConnected: break;
+            //app._sounds.phoneConnected.play();
+        case app._panels.rvtoConfirmStart: break;
+        case app._panels.rvtoActive: break;
+        case app._panels.rvtoConfirmEnd: break;
+        case app._panels.rvtoCountdownStart: 
             app.startTimer(5);
-            app.showPanelAfterTimeout(5, app._panels.rtOffline);
+            app.showPanelAfterTimeout(5, app._panels.rvtoActive);
             break;
-        case app._panels.rtOffline:
+        case app._panels.rvtoCountdownEnd: 
+            app.startTimer(5);
+            app.showPanelAfterTimeout(5, app._panels.rvtoDone);
+            break;
+        case app._panels.rvtoDone: 
             app.showHomePanelAfterTimeout(5);
             break;
         default:
@@ -63,19 +82,21 @@ app.beforeShowingPanel = function(nextPanelId) {
 }
 
 app.beforeLeavingPanel = function(leavingPanelId) {
-    if (leavingPanelId == app._panels.home) app.stopLiveClock();
+    //if (leavingPanelId == app._panels.home) app.stopLiveClock();
 }
 
 app.initClientModule = function() {
     //Set home panel (important as this will be shown after all inits are done!)
     app.setHomePanel(app._panels.home);
+    
     //Apply UI changes for correct sNR (scenario) and iavNr (interaction variant)
-    $('.v_onlyS2').hide();
+    //TODO: CHANGE THESE TO REFLECT SETTINGS IN CLIENTCONFIG
+    /*$('.v_onlyS2').hide();
     $('.v_onlyS3').hide();
     $('.v_onlyIAV1').hide();
     $('.v_onlyIAV2').hide();
     $('.v_onlyS' + app.sNr).show();
-    $('.v_onlyIAV' + app.iavNr).show();
+    $('.v_onlyIAV' + app.iavNr).show();*/
     //Get sound objects
     app._sounds.alert = document.getElementById('sound_alert');
     app._sounds.count = document.getElementById('sound_count');
@@ -88,39 +109,43 @@ app.initClientModule = function() {
     console.info("Client module initialized");
 }
 
-app.acceptRtOffer = function(bool) {
-    var signal = bool ? app._signal.out.rtOfferAccept : app._signal.out.rtOfferDecline;
-    app.sendSignal(signal);
-    bool ? app.showPanel(app._panels.loader) : app.showHomePanel();
+app.answerDriverAlert = function(bool_wantsAssistance) {
+    if (bool_wantsAssistance) {
+        app.startCall();
+    } else {
+        app.sendSignal(app._signal.out.dismissWarning);
+        app.showHomePanel();
+    }
 }
 
-//SZ2-only: Request TakeBack
-app.confirmUserReleaseRequest = function() {
-    if (app.sNr != 2) {
-        console.warn('Method only available in SZ2!');
-        return -1;
-    }
-    app.showPanel('pid_carui_s2_rtrelease_confirm');
+app.startCall = function() {
+    app.sendSignal(app._signal.out.startCall);
+    app.showPanel(app._panels.callConnecting);
 }
 
-//SZ2-only: Actually send user request
-app.requestRtRelease = function() {
-    if (app.sNr != 2) {
-        console.warn('Method only available in SZ2!');
-        return -1;
-    }
-    app.sendSignal(app._signal.out.rtReleaseReq);
-    app.showPanel(app._panels.loader);
+app.cancelCall = function() {
+    app.sendSignal(app._signal.out.stopCall);
+    app.showHomePanel();
 }
 
-app.answerSZ3ReleaseRequest = function(bool) {
-    if (app.sNr != 3) {
-        console.warn('Method only available in SZ3!');
-        return -1
+app.grantRTVO = function(bool) {
+    if (bool) {
+        app.sendSignal(app._signal.out.acceptRVTO);
+        app.showPanel(app._panels.loader)
+    } else {
+        app.sendSignal(app._signal.out.declineRVTO);
+        app.showPanel(app._panels.callConnected);
     }
-    var signal = bool ? app._signal.out.rtReleaseConfirmYes : app._signal.out.rtReleaseConfirmNo;
-    app.sendSignal(signal);
-    bool ? app.showPanel(app._panels.loader) : app.showPanel(app._panels.rtOnline);
+}
+
+app.confirmStopRTVO = function(bool) {
+    if (bool) {
+        app.sendSignal(app._signal.out.stopRVTO_yes);
+        app.showPanel(app._panels.loader)
+    } else {
+        app.sendSignal(app._signal.out.stopRVTO_no);
+        app.showPanel(app._panels.rvtoActive);
+    }
 }
 
 app.handleServerSignal = function(signal) {
@@ -128,23 +153,26 @@ app.handleServerSignal = function(signal) {
         case app._signal.inb.reload:
             app.reload();
             break;
-        case app._signal.inb.rtOffer:
-            var nextPanel = '';
-            console.log(this);
-            nextPanel = (app.sNr == 2) ? app._panels.rtOfferS2 : ((app.sNr == 3) ? app._panels.rtOfferS3 : '');
-            if (nextPanel == '') {
-                console.warn('Could not determine rtOffer panel for this szenario: ' + app.sNr);
-                return -1;
-            } else app.showPanel(nextPanel);
+        case app._signal.inb.launchAlert:
+            app.showPanel(app._panels.driverWarning);
             break;
-        case app._signal.inb.rtOnline:
-            app.showPanel('pid_carui_s0_rtoffer_countdown2online');
+        case app._signal.inb.launchEmergency:
+            app.showPanel(app._panels.driverEmergency);
             break;
-        case app._signal.inb.rtRelease:
-            app.showPanel('pid_carui_s3_rtrelease_request');
+        case app._signal.inb.callConnected:
+            app.showPanel(app._panels.callConnected);
             break;
-        case app._signal.inb.rtOffline:
-            app.showPanel('pid_carui_s0_rtrelease_countdown2offline');
+        case app._signal.inb.rvtoRequest_start:
+            app.showPanel(app._panels.rvtoConfirmStart);
+            break;
+        case app._signal.inb.rvtoRequest_end:
+            app.showPanel(app._panels.rvtoConfirmEnd);
+            break;
+        case app._signal.inb.rvtoConfirm_start:
+            app.showPanel(app._panels.rvtoCountdownStart);
+            break;
+        case app._signal.inb.rvtoConfirm_end:
+            app.showPanel(app._panels.rvtoCountdownEnd);
             break;
         default:
             console.warn('revieved invalid signal: ' + signal);
