@@ -16,6 +16,7 @@ var vc = viewController = {
     _signals: null,
     _rtvoStates: null,
     _callStates: null,
+    _emStates: null,
 
     _outlets: {
         console: null,
@@ -50,6 +51,7 @@ var vc = viewController = {
         sendRVTOStopRequest: 'vca_sendRvtoRqStop',
         sendRVTOStart: 'vca_sendRvtoStart',
         sendRVTOStop: 'vca_sendRvtoStop',
+        startEmergencyCall: 'vca_startEmCall'
     }, 
 
     releaseRequestOriginIsTO: false,
@@ -78,6 +80,7 @@ var vc = viewController = {
     setRVTOStateAfter: __f,
     setRVTOStateChangeTimeout: __f,
     setDriverAlertPanelVisibe: __f,
+    setEmergencyState: __f,
     setCallState: __f,
     executeAppCommand: __f,
     sendClientCommand: __f,
@@ -97,6 +100,7 @@ vc.init = function () {
     vc._signals = remote.getGlobal('signals');
     vc._rvtoStates = remote.getGlobal('rvtoStates');
     vc._callStates = remote.getGlobal('callStates');
+    vc._emStates = remote.getGlobal('emStates');
 
     //Wire up UI Outlets
     vc._outlets.console = $('#ui_consoleView');
@@ -123,6 +127,8 @@ vc.init = function () {
     $('#ui_btn_alertDriverDanger').click(function () { vc.triggerAction(vc._actions.sendDriverAlert) });
     $('#ui_btn_alertDriverEmergency').click(function () { vc.triggerAction(vc._actions.sendDriverEmergency) });
     $('#ui_btn_callAccept').click(function () { vc.triggerAction(vc._actions.sendCallAccept) });
+    //Emergency call maps to same action as sendCall
+    $('#ui_btn_startEmCall').click(function () { vc.triggerAction(vc._actions.startEmergencyCall ) });
     //$('#ui_btn_callDecline').click(function() { vc.triggerAction(vc._actions.sendRtOffline) });
     //$('#ui_btn_callExit').click(function() { vc.triggerAction(vc._actions.sendRTOnline) });
     vc._outlets.btn_rvtoStartReq.click(function () { vc.triggerAction(vc._actions.sendRVTOStartRequest) });
@@ -146,14 +152,32 @@ vc.init = function () {
 
     $('.ui_banner').hide();
 
-    vc.setCallState('nocall');
+    vc.setCallState(vc._callStates.nocall);
     vc.setRVTOState(vc._rvtoStates.offline);
 
 }
 
+
 vc.setDriverAlertPanelVisibe = function (bool) {
     var DAP = $('#ui_driveralertpanel');
     bool ? DAP.show() : DAP.hide();
+}
+
+//empty argument is used for easy call by vc.execute from appController, which does 
+vc.setEmergencyState = function(emState) {
+    switch (emState) {
+        case vc._emStates.on:
+            vc.setCallState(vc._callStates.emready);
+            break;
+        case vc._emStates.off:
+            vc.setCallState(vc._callStates.nocall);
+            vc.setRVTOState(vc._rvtoStates.offline);
+            vc.showElement('ui_banner_emergencyEnd', 3);
+            break;
+        default:
+            //do nothing, invalid state
+    }
+
 }
 
 $().ready(vc.init);
@@ -163,6 +187,7 @@ $().ready(vc.init);
         nocall
         incomming
         active
+        emready
 */
 
 vc.setCallState = function(callStateId) {
@@ -179,6 +204,10 @@ vc.setCallState = function(callStateId) {
             break;
         case vc._callStates.active:
             $('#ui_callmanager_view-activecall').show();
+            vc.setDriverAlertPanelVisibe(false);
+            break;
+        case vc._callStates.emready: 
+            $('#ui_callmanager_view-startemergencycall').show();
             vc.setDriverAlertPanelVisibe(false);
             break;
         default:
@@ -366,7 +395,13 @@ vc.triggerAction = function (actionId) {
             break;
         case this._actions.sendDriverEmergency:
             //this.showElement('ui_banner_online_actNow',6);
+            this.setEmergencyState(this._emStates.on);
             this.sendClientCommand(this._signals.out.launchEmergency);
+            break;
+        case this._actions.startEmergencyCall: 
+            this.setCallState(this._callStates.active);
+            this.setRVTOState(this._rvtoStates.online);
+            this.sendClientCommand(this._signals.out.rvtoConfirm_start);
             break;
         case this._actions.sendCallAccept:
             //this.showElement('ui_banner_online_actNow');

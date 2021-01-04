@@ -89,18 +89,41 @@
                                 <button id="ui_btn_alertDriverDanger"
                                     class="btn btn-lg btn-warning">Problem/Danger</button>
                                 <button id="ui_btn_alertDriverEmergency"
-                                    class="btn btn-lg btn-danger">Emergency</button>
+                                    class="btn btn-lg btn-danger">Emergency<br>
+                                </button>
                             </div>
                             <div class="row">
                                 <div class="alert alert-danger ui_banner" id="ui_banner_driverCanceledAlert"
                                     role="alert">
-                                    <strong>USER CANCELED ALERT/DANGER/EMERGECY</strong>
+                                    <strong>User decided to CANCEL the alert</strong>
+                                </div>
+                                <div class="alert alert-danger ui_banner" id="ui_banner_emergencyEnd" role="alert">
+                                    <div class="col">
+                                        <h3>Emergency Mode<br><b>DEACTIVATED</b></h3>
+                                        <h1>Press F2</h1>
+                                        <p>to restore simulator steering wheel controll</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="itembox">
+                    <div class="row ui_callmanager" id="ui_callmanager_view-startemergencycall">
+                        <div class="card mw200 shadow">
+                            <div class="card-header">
+                                EMERGENCY RESPONDER
+                            </div>
+                            <div class="card-body">
+                                <img src="../images/rvto-icons/rvto-online.png"  width="96" height="96">
+                                <h4 class="text-success">AUTOPILOT (YOU!) ONLINE</h4>
+                                <h2>Press F4</h2>
+                                <p><b>You are now responsible for the vehicle!</b></p>
+                                <p>As soon as you start the emergency call, teleoperation 'officially' starts</p>
+                                <button id="ui_btn_startEmCall" class="btn btn-lg btn-success">Start EM-Call</button>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row ui_callmanager" id="ui_callmanager_view-nocall">
                         <div class="alert alert-default" role="alert">
                             <img src="../images/icons8-keine-telefone-96.png" width="96">
@@ -146,6 +169,7 @@
                             <strong>CALL DISCONNECTED</strong>
                         </div>
                     </div>
+                    
                 </div>
             </view-szdetail>
             <view-bottombar class="left">
