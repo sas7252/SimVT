@@ -42,6 +42,8 @@ app._sounds = {
     count: null //warning sound used for countdown
 }
 
+app.releaseRequestOriginIsLocal = false;
+
 app.beforeShowingPanel = function(nextPanelId) {
     switch (nextPanelId) {
         case app._panels.home:
@@ -75,7 +77,7 @@ app.beforeShowingPanel = function(nextPanelId) {
             app.showPanelAfterTimeout(5, app._panels.rvtoDone);
             break;
         case app._panels.rvtoDone: 
-            app.showHomePanelAfterTimeout(5);
+            app.showPanelAfterTimeout(2, app._panels.callConnected);
             break;
         default:
     }
