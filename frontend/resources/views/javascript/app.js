@@ -356,13 +356,6 @@ vc.setRVTOState = function(rvtoStateId) {
     }
 }
 
-vc.setCallmanager = function (state) {
-    console.warn("function setCallmanager() replaced by setCallState()");
-}
-
-vc.setRVTOControlls = function (state) {
-    console.warn("function setRVTOControlls() replaced by setRVTOState()");
-}
 
 vc.executeAppCommand = function (appCommand) {
     console.log('Calling main process to (executeAppCommand: [' + appCommand + '])');
