@@ -100,7 +100,7 @@
                 </p>
                 <div class="row">
                     <button class="button red" onclick="app.answerDriverAlert(false);">Nein, weiterfahren</button>
-                    <button class="button green" onclick="app.answerDriverAlert(true)">Ja, Unterstützung anfordern</button>
+                    <button class="button green" onclick="app.answerDriverAlert(true);">Ja, Unterstützung anfordern</button>
                 </div>
             </div>
         </panel>
@@ -117,11 +117,16 @@
             <div class="content">
                 <h1>Notfall erkannt</h1>
                 <h2>Fahrer abgelenkt</h2>
+                
                 <p>
-                   ACHTUNG NOTFALL
+                   ACHTUNG NOTFALLÜBERNAHME. <br>
+                   SOFORT AUF BEENDE KLICKEN UM WEITERZUFAHREN<br>
+                   <br>
+                   AUTOPILOT AKTIV<br>
+                   TELEOPERATOR WIRD VERBUNDEN UND ÜBERNIMMT SCHNELLSTMÖGLICH...
                 </p>
                 <div class="row">
-                    <button class="button red" onclick="alert('IMPLEMENT THIS NOW!')">Nein, weiterfahren</button>
+                    <button class="button green" onclick="app.dismissEmergency();">Nein, weiterfahren</button>
                 </div>
             </div>
         </panel>

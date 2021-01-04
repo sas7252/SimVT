@@ -42,6 +42,8 @@ app._sounds = {
     count: null //warning sound used for countdown
 }
 
+app.emergencyState = false;
+
 app.releaseRequestOriginIsLocal = false;
 
 app.beforeShowingPanel = function(nextPanelId) {
@@ -120,6 +122,12 @@ app.answerDriverAlert = function(bool_wantsAssistance) {
     }
 }
 
+app.dismissEmergency = function() {
+    app.emergencyState = false;
+    app.sendSignal(app._signal.out.dismissEmergency);
+    app.showHomePanel();
+}
+
 app.startCall = function() {
     app.sendSignal(app._signal.out.startCall);
     app.showPanel(app._panels.callConnecting);
@@ -159,6 +167,7 @@ app.handleServerSignal = function(signal) {
             app.showPanel(app._panels.driverWarning);
             break;
         case app._signal.inb.launchEmergency:
+            app.emergencyState = true;
             app.showPanel(app._panels.driverEmergency);
             break;
         case app._signal.inb.callConnected:
@@ -171,7 +180,13 @@ app.handleServerSignal = function(signal) {
             app.showPanel(app._panels.rvtoConfirmEnd);
             break;
         case app._signal.inb.rvtoConfirm_start:
-            app.showPanel(app._panels.rvtoCountdownStart);
+            if (app.emergencyState) {
+                app.showPanel(app._panels.rvtoActive);
+                app.emergencyState = false;
+            } else {
+                app.showPanel(app._panels.rvtoCountdownStart);
+            }
+            
             break;
         case app._signal.inb.rvtoConfirm_end:
             app.showPanel(app._panels.rvtoCountdownEnd);
