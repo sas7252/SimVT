@@ -442,9 +442,10 @@ vc.hideElement = function (elementId) {
 }
 
 vc.addToConsole = function (message, color) {
-    var currentDate = '[' + new Date().toLocaleString() + '] ';
+    //var currentDate = '[' + new Date().toLocaleString() + '] ';
+    var date = new Date();
     var pre = document.createElement("p");
-    pre.innerHTML = currentDate + message;
+    pre.innerHTML = date.getHours() + ":" + date.getMinutes() + " " + message;
     pre.style.color = color;
     this._outlets.console.append(pre);
 }
