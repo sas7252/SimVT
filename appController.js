@@ -47,7 +47,8 @@ global.rvtoStates = {
 global.callStates = {
     nocall: 'nocall',
     incomming: 'incomming',
-    active: 'active'
+    active: 'active',
+    emready: 'emready'
 }
 
 global.signals = {
@@ -99,6 +100,11 @@ global.signals = {
         hide: 'appCM_hide',
         notifyCfgUpdated: 'appCM_updateCfg'
     }, 
+}
+
+global.emStates = {
+    on: 'emOn',
+    off: 'emOff'
 }
 
 global.requestOrigin = {
@@ -176,8 +182,10 @@ function handleIncommingSignal(signal, sender) {
         addMessageToWindowConsole("<--IN- [" + signal + "] from client " + sender);
         switch (signal) {
             case signals.in.dismissWarning:
-            case signals.in.dismissEmergency:
                 vc.execute('showElement', vc.banners.driverCanceledAlert, 3);
+                break;
+            case signals.in.dismissEmergency:
+                vc.execute('setEmergencyState', emStates.off);
                 break;
             case signals.in.callIncomming:
                 vc.execute('setCallState', 'incomming');
