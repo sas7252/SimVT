@@ -77,6 +77,7 @@ var vc = viewController = {
     setRVTOState: __f,
     setRVTOStateAfter: __f,
     setRVTOStateChangeTimeout: __f,
+    setDriverAlertPanelVisibe: __f,
     setCallState: __f,
     executeAppCommand: __f,
     sendClientCommand: __f,
@@ -150,6 +151,10 @@ vc.init = function () {
 
 }
 
+vc.setDriverAlertPanelVisibe = function (bool) {
+    var DAP = $('#ui_driveralertpanel');
+    bool ? DAP.show() : DAP.hide();
+}
 
 $().ready(vc.init);
 
@@ -166,15 +171,18 @@ vc.setCallState = function(callStateId) {
     switch (callStateId) {
         case vc._callStates.nocall:
             $('#ui_callmanager_view-nocall').show();
+            vc.setDriverAlertPanelVisibe(true);
             break;
         case vc._callStates.incomming:
             $('#ui_callmanager_view-incommingcall').show();
+            vc.setDriverAlertPanelVisibe(false);
             break;
         case vc._callStates.active:
             $('#ui_callmanager_view-activecall').show();
+            vc.setDriverAlertPanelVisibe(false);
             break;
         default:
-
+            vc.setDriverAlertPanelVisibe(true);
     }
 }
 

@@ -235,9 +235,9 @@ function handleIncommingSignal(signal, sender) {
             */
         }
     } else if (signal == "CLIENT_CONNECTED") {
-        addMessageToWindowConsole("<----> CONNECTED " + sender, "blue");
+        addMessageToWindowConsole("<----> CONNECTED " + sender, "#33FF3A");
     } else if (signal == "CLIENT_DISCONNECTED") {
-        addMessageToWindowConsole("<-X X-> DISCONNECTED " + sender, "red");
+        addMessageToWindowConsole("<-X X-> DISCONNECTED " + sender, "#FF4206");
     }
 }
 
@@ -247,15 +247,15 @@ function sendCmdSignalToClients(clientCommand) {
         //console.log('clientCommand IS VALID');
         //console.log("Command signal from admin: " + clientCommand + " Sending to clients now!");
         server.sendSignal(clientCommand);
-        addMessageToWindowConsole("-OUT-> [" + clientCommand + "] to Client", "green");
+        addMessageToWindowConsole("-OUT-> [" + clientCommand + "] to Client", "#09C4FF");
     } else {
         //console.log("clientCommand " + clientCommand + " IS !NOT VALID. Checking if it is servercommand instean");
         if (filterSignalToServer(clientCommand)) {
             //console.log("clientCommand " + clientCommand + " is actually a SERVER COMMAND");
-            addMessageToWindowConsole("(!) [" + clientCommand + "] is a client->server signal and can not be send from the server!", "orange");
+            addMessageToWindowConsole("(!) [" + clientCommand + "] is a client->server signal and can not be send from the server!", "#FC9400");
         } else {
             //console.log("clientCommand " + clientCommand + " is not a valid command at all");
-            addMessageToWindowConsole("(!) [" + clientCommand + "] is not a valid signal", "orange");
+            addMessageToWindowConsole("(!) [" + clientCommand + "] is not a valid signal", "#FC9400");
         }
     }
 }
