@@ -20,7 +20,8 @@
                 //document.write(process.version)
             </script>
         </header>
-        <div style="-webkit-app-region: none" class="btn-group" role="group" aria-label="Button group with nested dropdown">
+        <div style="-webkit-app-region: none" class="btn-group" role="group"
+            aria-label="Button group with nested dropdown">
             <a href="#!" class="btn btn-dark" id="ui_btn_hideApp">Hide</a>
             <a href="#!" class="btn btn-danger" id="ui_btn_exitApp">[!] QUIT</a>
         </div>
@@ -32,24 +33,13 @@
                 <form>
                     <div class="form-row">
                         <div class="col">
-
-
-
-
-
-
-
-
-
-
                             <div class="input-group mb-2">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">Scenario</div>
                                 </div>
-                                <select id="ui_dropdown_sNr" class="form-control">
-                  <option value="2">SZ2 Stress-Situation (Work&Drive)</option>
-                  <option value="3">SZ3 Comfort-Situation (Taxi)</option>
-                </select>
+                                <select id="ui_dropdown_sNr" class="form-control" disabled>
+                                    <option value="2">Default - BA-Concept sas7252</option>
+                                </select>
                             </div>
 
                         </div>
@@ -60,10 +50,9 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">IAV</div>
                                 </div>
-                                <select id="ui_dropdown_iavNr" class="form-control">
-                  <option value="1">Text only</option>
-                  <option value="2">Voice-Chat</option>
-                </select>
+                                <select id="ui_dropdown_iavNr" class="form-control" disabled>
+                                    <option value="1">Default</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col">
@@ -72,9 +61,9 @@
                                     <div class="input-group-text">Driver Profile</div>
                                 </div>
                                 <select id="ui_dropdown_dNr" class="form-control">
-                  <option value="1">Elena Kaiser</option>
-                  <option value="2">Jan Mayer</option>
-                </select>
+                                    <option value="1">Elena Kaiser</option>
+                                    <option value="2">Jan Mayer</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -82,33 +71,81 @@
                 </form>
                 <div class="d-flex flex-row-reverse">
                     <button id="ui_btn_resetCfg" class="btn btn-outline-danger btn-sm">Apply now</button>
-                    <div class="text-muted small txinfo">Warning! This will reset the progress and reload all connected clients -->
+                    <div class="text-muted small txinfo">Warning! This will reset the progress and reload all connected
+                        clients -->
                     </div>
                 </div>
             </view-topbar>
             <view-szdetail class="sz-view sz2">
                 <div class="itembox">
-                    <h1>MONITOR</h1>
-                    <button>Send Alert</button>
-                    <button>Send Warning</button>
-                    <labelbox>Info</labelbox>
+                    <div class="card mw200 shadow">
+                        <div class="card-header">
+                            Vehicle Safety Features
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Use these buttons to send/display messages on the CarUI
+                            </p>
+                            <div class="row">
+                                <button id="ui_btn_alertDriverDanger"
+                                    class="btn btn-lg btn-warning">Problem/Danger</button>
+                                <button ui="ui_btn_alertDriverEmergency"
+                                    class="btn btn-lg btn-danger">Emergency</button>
+                            </div>
+                            <div class="row">
+                                <div class="alert alert-danger ui_banner" id="ui_banner_driverCanceledAlert"
+                                    role="alert">
+                                    <strong>USER CANCELED ALERT/DANGER/EMERGECY</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="itembox">
-                    <h1>CALL</h1>
-                    Connected/Disconnected
-                    <button>Accept</button>
-                    <button>Decline</button>
-                    <button>EndCall</button>
-                </div>
-                <div class="itembox">
-                    <h1>TAKE OVER</h1>
-                    <button>Request Permission</button>
-                    <button>Take Over</button>
-                </div>
-                <div class="itembox">
-                    <h1>RELASE</h1>
-                    <button>Request Permisssion</button>
-                    <button>Release</button>
+                    <div class="row ui_callmanager" id="ui_callmanager_view-nocall">
+                        <div class="alert alert-default" role="alert">
+                            <img src="../images/icons8-keine-telefone-96.png" width="96">
+                            <strong>NO ACTIVE CALLS</strong>
+                        </div>
+                    </div>
+                    <div class="row ui_callmanager" id="ui_callmanager_view-incommingcall">
+                        <div class="card mw200 shadow">
+                            <div class="card-header">
+                                INCOMMING CALL
+                            </div>
+                            <div class="card-body">
+                                <img src="../images/icons8-telefon-getrennt-96.png"  width="96" height="96">
+                                <p class="card-text">Please answer this support call!</p>
+                                <button id="ui_btn_callAccept" class="btn btn-lg btn-success">Accept</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ui_callmanager" id="ui_callmanager_view-activecall">
+                        <div class="card rw500 shadow">
+                            <div class="card-header">
+                                <img src="../images/icons8-telefon-getrennt-96.png" width="20" height="20"> ACTIVE SUPPORT CALL
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">You are connected to the driver by phone</p>
+                                <p class="card-text">Vehicle Operation Mode:</p>
+                                <img id="ui_rvtoStatusImg" src="" width="100" height="100">
+                                <h3 id="ui_rtvoStatusLabel"></h3>
+                                <b id="ui_rtvoStatusDescrLabel"></b>
+                                <div class="alert ui_banner" id="ui_rtvoStateBanner" role="alert">
+                                    <img id="ui_rtvoBanner_img" src="" width="20" height="20">
+                                    <span id="ui_rtvoBanner_txt"></span>
+                                </div>
+                                <button id="ui_btn_rtvo-stop-reqperm" class="btn btn-primary ui_rvto-button">Request Permission to Release</button>
+                                <button id="ui_btn_rtvo-stop" class="btn btn-warning ui_rvto-button">RELEASE Vehicle</button>
+                                <button id="ui_btn_rtvo-start-reqperm" class="btn btn-primary ui_rvto-button">Request Permission to Take Over</button>
+                                <button id="ui_btn_rtvo-start" class="btn btn-warning ui_rvto-button">TAKE OVER Vehicle</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="alert alert-warning ui_banner" id="ui_banner_callDisconnected" role="alert">
+                            <strong>CALL DISCONNECTED</strong>
+                        </div>
+                    </div>
                 </div>
             </view-szdetail>
             <view-bottombar class="left">
@@ -121,7 +158,9 @@
             </console>
             <view-bottombar class="right">
                 <div class="input-group mb-3">
-                    <input id="ui_textfield_commandInput" type="text" class="form-control" placeholder="Enter a valid signal" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <input id="ui_textfield_commandInput" type="text" class="form-control"
+                        placeholder="Enter a valid signal" aria-label="Recipient's username"
+                        aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <button id="ui_btn_runCmd" class="btn btn-primary" type="button">Send</button>
                     </div>
