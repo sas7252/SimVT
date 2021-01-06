@@ -49,30 +49,41 @@
         <!--
            HOME
         -->
-        <panel id="pid_carui_home" class="panel tablet slide-in-right">
+        <panel id="pid_carui_home" class="panel tablet fade-in">
             <div class="header grey">
                 <img class="left" src="../shared/assets/images/logo_m.svg" height="40px" />
-                <img class="right not-impl" src="../shared/assets/images/micro.svg" height="40px" />
+                <img class="right " src="../shared/assets/images/carui-online.png" height="40px" />
             </div>
             <div class="content">
-                <button>I/O: Problemsituation erkennen</button>
-                <button>I/O: Automatische Übernahme im Notfall</button>
+                <!--<button>I/O: Problemsituation erkennen</button>
+                <button>I/O: Automatische Übernahme im Notfall</button>-->
                 <div class="row">
                     <button class="button orange" onclick="app.startCall()">Fernunterstützung anfordern</button>
                 </div>
+                <p><br><small><i>Bei der Fernuntersützung erhält myCar Servicepersonal Zugriff<br> auf die Außenkameras Ihres Fahrzeugs</i></small></p>
             </div>
         </panel>
 
         <!--
            LOADER
         -->
-        <panel id="pid_carui_loader" class="panel tablet slide-in-right">
+        <panel id="pid_carui_loader" class="panel tablet fade-in">
             <div class="header grey">
                 <img class="left" src="../shared/assets/images/logo_m.svg" height="40px" />
-                <img class="right not-impl" src="../shared/assets/images/micro.svg" height="40px" />
+                <img class="right not-impl" src="../shared/assets/images/carui-online.png" height="40px" />
+                <div class="right callui">
+                    <img class="left" src="../shared/assets/images/carui-activecall.png" height="30px">
+                    <div class="callerinfo">
+                        <div class="col">
+                          <span class="ui_driverFullname">Tim Berner</span>
+                          <span class="ui_driverTitle">myCar Teleoperator</span>
+                        </div>
+                        <img class="ui_driverPicture" src="../shared/assets/images/Luca.png" height="40px">
+                    </div>
+                </div>
             </div>
             <div class="content">
-                <h1>Bitte warte einen Moment</h1>
+                <h1>Bitte warten Sie einen Moment</h1>
                 <h3>
                     <img src="./resources/loader.gif">
                 </h3>
@@ -84,23 +95,29 @@
         -->
 
         <panel id="pid_carui_driverWarning" class="panel tablet slide-in-right">
-            <div class="header grey">
+            <div class="header orange">
                 <img class="left" src="../shared/assets/images/logo_m.svg" height="40px" />
-                <img class="right not-impl" src="../shared/assets/images/micro.svg" height="40px" />
+                <img class="right" src="../shared/assets/images/carui-online.png" height="40px" />
+                
+ 
             </div>
-            <div class="content">
+            <div class="content orange-light">
                 <div class="splitview">
 
                 </div>
-                <h1>Problem erkannt</h1>
-                <h2>Fahrer abgelenkt</h2>
-                <p>
-                    Möchten Sie Fernunterstützung anfordnern?<br>
-                    (Fernsteuerung des Fahrzeugs durch einen speziell ausgebildeten Fahrer)
-                </p>
-                <div class="row">
-                    <button class="button red" onclick="app.answerDriverAlert(false);">Nein, weiterfahren</button>
-                    <button class="button green" onclick="app.answerDriverAlert(true);">Ja, Unterstützung anfordern</button>
+                <img src="../shared/assets/images/rvto-danger.png" width="150">
+                <h1>Fahrer abgelenkt</h1>
+                <h2>
+                    Möchten Sie Fernunterstützung anfordnern?
+                </h2>
+                <p><small><i>Fernsteuerung des Fahrzeugs durch einen speziell ausgebildeten Fahrer</i></small></p>
+                <div class="row ptop">
+                    <button class="button iconbtn red" onclick="app.answerDriverAlert(false);">
+                        <img src="../shared/assets/images/carui-no.png" width="50">
+                    </button>
+                    <button class="button iconbtn green" onclick="app.answerDriverAlert(true);">
+                        <img src="../shared/assets/images/carui-yes.png" width="50">
+                    </button>
                 </div>
             </div>
         </panel>
@@ -109,12 +126,12 @@
            DRIVER EMERGENCY
         -->
 
-        <panel id="pid_carui_driverEmergency" class="panel tablet slide-in-right">
-            <div class="header grey">
+        <panel id="pid_carui_driverEmergency" class="panel tablet">
+            <div class="header red">
                 <img class="left" src="../shared/assets/images/logo_m.svg" height="40px" />
-                <img class="right not-impl" src="../shared/assets/images/micro.svg" height="40px" />
+                <img class="right not-impl" src="../shared/assets/images/carui-online2.png" height="40px" />
             </div>
-            <div class="content">
+            <div class="content red">
                 <h1>Notfall erkannt</h1>
                 <h2>Fahrer abgelenkt</h2>
                 
@@ -125,8 +142,8 @@
                    AUTOPILOT AKTIV<br>
                    TELEOPERATOR WIRD VERBUNDEN UND ÜBERNIMMT SCHNELLSTMÖGLICH...
                 </p>
-                <div class="row">
-                    <button class="button green" onclick="app.dismissEmergency();">Nein, weiterfahren</button>
+                <div class="row ptop">
+                    <button class="button orange" onclick="app.dismissEmergency();">Nein, weiterfahren</button>
                 </div>
             </div>
         </panel>
@@ -135,16 +152,16 @@
             RVTO CALL CONNECTING
         -->
 
-        <panel id="pid_carui_callConnecting" class="panel tablet slide-in-right">
+        <panel id="pid_carui_callConnecting" class="panel tablet fade-in">
             <div class="header grey">
                 <img class="left" src="../shared/assets/images/logo_m.svg" height="40px" />
-                <img class="right not-impl" src="../shared/assets/images/micro.svg" height="40px" />
+                <img class="right not-impl" src="../shared/assets/images/carui-online.png" height="40px" />
             </div>
             <div class="content">
-                <span>Sprachanruf</span>
-                <img src="../shared/assets/images/call.svg" height="300px" />
-                <span>Verbindung wird hergestellt</span>
-                <div class="row">
+                <img src="../shared/assets/images/call.svg" height="200px"/>
+                <h1>Anfrage läuft...</h1>
+                <h2>Fernuntersützung wird angefragt,<br> Bitte haben Sie einen Moment Geduld. </h2>
+                <div class="row ptop">
                     <button class="button orange clickable" onclick="app.cancelCall();">Abbrechen</button>
                 </div>
             </div>
@@ -154,17 +171,31 @@
             RVTO CALL CONNECTED
         -->
 
-        <panel id="pid_carui_callConnected" class="panel tablet slide-in-right">
+        <panel id="pid_carui_callConnected" class="panel tablet fade-in">
             <div class="header grey">
                 <img class="left" src="../shared/assets/images/logo_m.svg" height="40px" />
-                <img class="right not-impl" src="../shared/assets/images/micro.svg" height="40px" />
+                <img class="right not-impl" src="../shared/assets/images/carui-online.png" height="40px" />
+                <div class="right callui">
+                    <img class="left" src="../shared/assets/images/carui-activecall.png" height="30px">
+                    <div class="callerinfo">
+                        <div class="col">
+                          <span class="ui_driverFullname">Tim Berner</span>
+                          <span class="ui_driverTitle">myCar Teleoperator</span>
+                        </div>
+                        <img class="ui_driverPicture" src="../shared/assets/images/Luca.png" height="40px">
+                    </div>
+                </div>
             </div>
             <div class="content">
-                <span>Sprachanruf</span>
-                <img src="../shared/assets/images/call.svg" height="300px" />
-                <span>ist verbunden</span>
-                <div class="row">
-                    <button class="button orange clickable" onclick="app.cancelCall();">Abbrechen</button>
+                <img src="../shared/assets/images/call-online.svg" height="200px" />
+                <h1>Verbunden mit myCar</h1>
+                <h2>Sie sind jetzt mit dem Fernunterstützungs-Dienst verbunden<br> 
+                    <span class="text-danger">Sprachanruf aktiv</span>
+                </h2>
+                <div class="row ptop">
+                    <button class="button red btnWithTextPlusIcon" onclick="app.cancelCall();">
+                        <img src="../shared/assets/images/carui-endcall.png" width="60">
+                        Auflegen</button>
                 </div>
             </div>
         </panel>
@@ -176,22 +207,35 @@
         <panel id="pid_carui_rvto-confirm-start" class="panel tablet slide-in-right">
             <div class="header grey">
                 <img class="left" src="../shared/assets/images/logo_m.svg" height="40px" />
-                <img class="right not-impl" src="../shared/assets/images/micro.svg" height="40px" />
+                <img class="right not-impl" src="../shared/assets/images/carui-online.png" height="40px" />
+                <div class="right callui">
+                    <img class="left" src="../shared/assets/images/carui-activecall.png" height="30px">
+                    <div class="callerinfo">
+                        <div class="col">
+                          <span class="ui_driverFullname">Tim Berner</span>
+                          <span class="ui_driverTitle">myCar Teleoperator</span>
+                        </div>
+                        <img class="ui_driverPicture" src="../shared/assets/images/Luca.png" height="40px">
+                    </div>
+                </div>
             </div>
-            <div class="content">
+            <div class="content grey">
                 <h2>Bitte bestätigen Sie die<br>
-                    <span>Übernahme der <span>Fahrzeugsteuerung</span></span><br>
+                    <b class="text-bold">Übernahme der <span class="text-orange">Fahrzeugsteuerung</span></b><br>
                     durch diese Person:
                 </h2>
-                <img class="ui_driverPicture" src="../shared/assets/images/Luca.png" height="225px" />
-                <h4 class="ui_driverFullname">Tim Berner</h4>
-                <h5>myCar Teleoperator</h5>
-                <div class="row">
-                    <button class="button medium red" onclick="app.grantRTVO(false)">
-                        Ablehnen</button>
-                    <button class="button green" onclick="app.grantRTVO(true)">
-                        Annehmen</button>
-  
+                <img class="ui_driverPicture" src="../shared/assets/images/Luca.png" height="175px" style="margin-top: 30px;margin-bottom: 20px;"/>
+                <p>
+                    <span class="ui_driverFullname">Tim Berner</span><br>
+                    <span class="ui_driverTitle">myCar Remote-Fahrexperte<br>Teleoperator</span>
+                </p>
+                <div class="row ptop">
+                    <button class="button iconbtn red" onclick="app.grantRTVO(false);">
+                        <img src="../shared/assets/images/carui-no.png" width="50">
+                    </button>
+                    <button class="button iconbtn green" onclick="app.grantRTVO(true);">
+                        <img src="../shared/assets/images/carui-yes.png" width="50">
+                    </button>  
                 </div>
             </div>
         </panel>
@@ -200,19 +244,33 @@
             RVTO ACTIVE
         -->
 
-        <panel id="pid_carui_rvto-active" class="panel tablet slide-in-right">
+        <panel id="pid_carui_rvto-active" class="panel tablet fade-in">
             <div class="header darkgrey">
                 <img class="left abs" src="../shared/assets/images/logo_m.svg" height="40px" />
-                <h1 class="v_onlyS3 tcenter text">Ferunterstützung <span class="tb reg">AKTIV</span></h1>
+                <img class="right not-impl" src="../shared/assets/images/carui-online2.png" height="40px" />
+                <img class="right headericon" src="../shared/assets/images/rvto-online.png" height="40px" />
+                <div class="right callui">
+                    <img class="left" src="../shared/assets/images/carui-activecall.png" height="30px">
+                    <div class="callerinfo">
+                        <div class="col">
+                          <span class="ui_driverFullname">Tim Berner</span>
+                          <span class="ui_driverTitle">myCar Teleoperator</span>
+                        </div>
+                        <img class="ui_driverPicture" src="../shared/assets/images/Luca.png" height="40px">
+                    </div>
+                </div>
+                
             </div>
             <div class="content darkgrey">
-                <img src="" width="100">
+                <img src="../shared/assets/images/rvto-locked.png" width="150">
                 <h1>Fernunterstützung aktiv</h1>
-                <h2>Beenden Sie die Fahrunterstützung um selbst zu fahren</h2>
+                <h2>Beenden Sie die Fernunterstützung um selbst zu fahren</h2>
                 <!-- Contextual: this button is only available in s2-->
-                <button class="button big orange" onclick="app.showPanel('pid_carui_rvto-confirm-end');">
-                    Fahrunterstützung beenden
-                </button>
+                <div class="row ptop">
+                    <button class="button orange" onclick="app.showPanel('pid_carui_rvto-confirm-end');">
+                        Fahrunterstützung beenden
+                    </button>
+                </div>
             </div>
         </panel>
 
@@ -223,17 +281,30 @@
         <panel id="pid_carui_rvto-confirm-end" class="panel tablet slide-in-right">
             <div class="header darkgrey">
                 <img class="left" src="../shared/assets/images/logo_m.svg" height="40px" />
-                <img class="right not-impl" src="../shared/assets/images/micro.svg" height="40px" />
+                <img class="right not-impl" src="../shared/assets/images/carui-online2.png" height="40px" />
+                <img class="right headericon" src="../shared/assets/images/rvto-online.png" height="40px" />
+                <div class="right callui">
+                    <img class="left" src="../shared/assets/images/carui-activecall.png" height="30px">
+                    <div class="callerinfo">
+                        <div class="col">
+                          <span class="ui_driverFullname">Tim Berner</span>
+                          <span class="ui_driverTitle">myCar Teleoperator</span>
+                        </div>
+                        <img class="ui_driverPicture" src="../shared/assets/images/Luca.png" height="40px">
+                    </div>
+                </div>
             </div>
             <div class="content darkgrey">
-                <img src="" width="100">
+                <img src="../shared/assets/images/rvto-return.png" width="150">
                 <h1>Fernunterstützung beenden</h1>
-                <h2>Sind Sie bereit die Kontrolle wieder zu übernehmen?</h2>
-                <div class="row">
-                    <button class="button" onclick="app.confirmStopRTVO(false)">
-                        Ablehnen</button>
-                    <button class="button green" onclick="app.confirmStopRTVO(true)">
-                        Annehmen</button>   
+                <h3>Sind Sie bereit die Kontrolle wieder zu übernehmen?</h3>
+                <div class="row ptop">
+                    <button class="button iconbtn red" onclick="app.confirmStopRTVO(false);">
+                        <img src="../shared/assets/images/carui-no.png" width="50">
+                    </button>
+                    <button class="button iconbtn green" onclick="app.confirmStopRTVO(true);">
+                        <img src="../shared/assets/images/carui-yes.png" width="50">
+                    </button> 
                 </div>
             </div>
         </panel>
@@ -242,16 +313,29 @@
                 RVTO COUNTDOWN to START
         -->
 
-        <panel id="pid_carui_rvto-countdown-start" class="panel tablet slide-in-right">
-            <div class="header grey">
+        <panel id="pid_carui_rvto-countdown-start" class="panel tablet">
+            <div class="header orange">
                 <img class="left" src="../shared/assets/images/logo_m.svg" height="40px" />
+                <img class="right not-impl" src="../shared/assets/images/carui-online.png" height="40px" />
+                <div class="right callui">
+                    <img class="left" src="../shared/assets/images/carui-activecall.png" height="30px">
+                    <div class="callerinfo">
+                        <div class="col">
+                          <span class="ui_driverFullname">Tim Berner</span>
+                          <span class="ui_driverTitle">myCar Teleoperator</span>
+                        </div>
+                        <img class="ui_driverPicture" src="../shared/assets/images/Luca.png" height="40px">
+                    </div>
+                </div>
             </div>
-            <div class="content grey">
-                <h1>Systemübernahme</h1>
-                <p>
-                    erfolgt in
-                    <span class="bigger tb reg counter-me appTimer" from="5" to="0" intervall="1">5</span> Sekunden
-                </p>
+            <div class="content orange">
+                <h3>
+                    <span class="bigger appTimer" from="5" to="0" intervall="1">5</span>
+                    <br>Sekunden
+                </h3>
+                <h1>bis zur Übergabe der Fahrfunktion<br>
+                    an <span class="text-bold">den Teleoperator</span>
+                </h1>
             </div>
         </panel>
 
@@ -259,18 +343,28 @@
                 RVTO COUNTDOWN to END
         -->
 
-        <panel id="pid_carui_rvto-countdown-end" class="panel tablet slide-in-right">
-            <div class="header darkgrey">
+        <panel id="pid_carui_rvto-countdown-end" class="panel tablet">
+            <div class="header orange">
                 <img class="left" src="../shared/assets/images/logo_m.svg" height="40px" />
+                <img class="right not-impl" src="../shared/assets/images/carui-online.png" height="40px" />
+                <div class="right callui">
+                    <img class="left" src="../shared/assets/images/carui-activecall.png" height="30px">
+                    <div class="callerinfo">
+                        <div class="col">
+                          <span class="ui_driverFullname">Tim Berner</span>
+                          <span class="ui_driverTitle">myCar Teleoperator</span>
+                        </div>
+                        <img class="ui_driverPicture" src="../shared/assets/images/Luca.png" height="40px">
+                    </div>
+                </div>
             </div>
-            <div class="content darkgrey">
-                <h1>
-                    <span class="big">Sie</span>
-                    erhalten die Kontrolle<br>
-                    über das Fahrzeug<br>
-                    in <span class="bigger appTimer" from="5" to="0" intervall="1">5</span> Sekunden
-                </h1>
-                <h2><i>Bitte die Hände ans Lenkrad(</i></h2>
+            <div class="content orange">
+                <p>
+                    <span class="bigger appTimer" from="5" to="0" intervall="1">5</span>
+                    <br>Sekunden
+                </p>
+                <h1>bis zur Übergabe der Fahrfunktion an <b class="text-bold">Sie</b> in</h1>
+                <h2>Bitte bereit halten!</h2>
             </div>
         </panel>
 
@@ -278,12 +372,23 @@
                 RVTO DONE
         -->
 
-        <panel id="pid_carui_rvto-done" class="panel tablet slide-in-right">
+        <panel id="pid_carui_rvto-done" class="panel tablet fade-in">
             <div class="header grey">
                 <img class="left" src="../shared/assets/images/logo_m.svg" height="40px" />
+                <img class="right not-impl" src="../shared/assets/images/carui-online.png" height="40px" />
+                <div class="right callui">
+                    <img class="left" src="../shared/assets/images/carui-activecall.png" height="30px">
+                    <div class="callerinfo">
+                        <div class="col">
+                          <span class="ui_driverFullname">Tim Berner</span>
+                          <span class="ui_driverTitle">myCar Teleoperator</span>
+                        </div>
+                        <img class="ui_driverPicture" src="../shared/assets/images/Luca.png" height="40px">
+                    </div>
+                </div>
             </div>
             <div class="content">
-                <img src="" width="100">
+                <img src="../shared/assets/images/rvto-returnok2.png" height="150px" />
                 <h1>Übernahme erfolgreich</h1>
                 <p>Sie steuern jetzt wieder das Fahrzeug.</p>
             </div>
@@ -293,7 +398,7 @@
                 ERROR PANEL
         -->
 
-        <panel id="webui_error" class="panel tablet slide-in-right">
+        <panel id="webui_error" class="panel tablet">
             <div class="header grey">
                 <img class="left" src="../shared/assets/images/logo_m.svg" height="95px" />
                 <img class="right not-impl" src="../shared/assets/images/profile.svg" height="95px" />
