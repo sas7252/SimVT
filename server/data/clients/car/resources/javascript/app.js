@@ -44,6 +44,8 @@ app._sounds = {
 
 app.emergencyState = false;
 
+app.rvtoStopOriginIsLocal = false;
+
 app.releaseRequestOriginIsLocal = false;
 
 app.beforeShowingPanel = function(nextPanelId) {
@@ -128,6 +130,8 @@ app.dismissEmergency = function() {
     app.showHomePanel();
 }
 
+
+
 app.startCall = function() {
     app.sendSignal(app._signal.out.startCall);
     app.showPanel(app._panels.callConnecting);
@@ -148,12 +152,17 @@ app.grantRTVO = function(bool) {
     }
 }
 
+app.stopRVTOLocally = function() {
+    app.rvtoStopOriginIsLocal = true;
+    app.showPanel('pid_carui_rvto-confirm-end')
+}
+
 app.confirmStopRTVO = function(bool) {
     if (bool) {
         app.sendSignal(app._signal.out.stopRVTO_yes);
         app.showPanel(app._panels.loader)
     } else {
-        app.sendSignal(app._signal.out.stopRVTO_no);
+        if (!app.rvtoStopOriginIsLocal) app.sendSignal(app._signal.out.stopRVTO_no);
         app.showPanel(app._panels.rvtoActive);
     }
 }
@@ -177,6 +186,7 @@ app.handleServerSignal = function(signal) {
             app.showPanel(app._panels.rvtoConfirmStart);
             break;
         case app._signal.inb.rvtoRequest_end:
+            app.rvtoStopOriginIsLocal = false;
             app.showPanel(app._panels.rvtoConfirmEnd);
             break;
         case app._signal.inb.rvtoConfirm_start:

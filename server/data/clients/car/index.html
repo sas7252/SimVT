@@ -18,7 +18,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="DriveMe">
+    <meta name="apple-mobile-web-app-title" content="CarUI">
     <link rel="apple-touch-icon" href="./resources/appicon.png">
 
     <!-- Andoid WebApp / PWA  -->
@@ -26,7 +26,7 @@
     <link rel="shortcut icon" href="./resources/appicon.png" sizes="196x196">
 
     <!-- Viewport Setup -->
-    <meta name="viewport" content="width=device-width, initial-scale=0.35, user-scalable=0">
+    <meta name="viewport" content="width=device-width, initial-scale=0.35, user-scalable=no">
 </head>
 
 <body class="app">
@@ -260,7 +260,7 @@
                 <h2>Beenden Sie die Fernunterstützung um selbst zu fahren</h2>
                 <!-- Contextual: this button is only available in s2-->
                 <div class="row ptop">
-                    <button class="button orange" onclick="app.showPanel('pid_carui_rvto-confirm-end');">
+                    <button class="button orange" onclick="app.stopRVTOLocally();">
                         Fahrunterstützung beenden
                     </button>
                 </div>
