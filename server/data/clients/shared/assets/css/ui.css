@@ -96,6 +96,15 @@ hidden {
     background-color: #ff3939; 
 }
 
+.red h1,
+.red h2,
+.red h3,
+.red h4,
+.red p,
+.red small {
+    color: black;
+}
+
 .orange {
     background-color: #FFB739;
 }
