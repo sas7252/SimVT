@@ -169,8 +169,8 @@ app.initClientModule = function() {
 
 
     //Get sound objects
-    app._sounds.alert = document.getElementById('sound_alert');
-    app._sounds.count = document.getElementById('sound_count');
+    //app._sounds.alert = document.getElementById('sound_alert');
+    //app._sounds.count = document.getElementById('sound_count');
     app._sounds.tts_driverAlert = document.getElementById('tts_driverAlert');
     app._sounds.tts_emergency_long = document.getElementById('tts_emergency_long');
     app._sounds.call_connected = document.getElementById('call_connected');
@@ -178,8 +178,8 @@ app.initClientModule = function() {
     app._sounds.call_disconnected = document.getElementById('call_disconnected');
     app._sounds.carui_countdown = document.getElementById('carui_countdown');
     app._sounds.carui_alert = document.getElementById('carui_alert');
-    app._sounds.alert.load();
-    app._sounds.count.load();
+    //app._sounds.alert.load();
+    //app._sounds.count.load();
     app._sounds.tts_driverAlert.load();
     app._sounds.tts_emergency_long.load();
     app._sounds.call_connected.load();

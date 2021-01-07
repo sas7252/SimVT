@@ -161,7 +161,7 @@ app.getFormattedTime = function(diffInMinutes = 0) {
 
 // Startup
 $(document).ready(function() {
-    app.setTitle('DriveMe');
+    app.setTitle('myCar');
     app.showPanel($('panel.panel').first().attr('id'), false);
     $.get('/clientConfig.json')
         .done(function(clientConfig) {
