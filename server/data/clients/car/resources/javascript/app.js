@@ -39,7 +39,9 @@ app._signal = {
 
 app._sounds = {
     alert: null, //alert sound used for attention grabbing
-    count: null //warning sound used for countdown
+    count: null, //warning sound used for countdown
+    tts_driverAlert: null,
+    tts_emergency_long: null
 }
 
 app.emergencyState = false;
@@ -48,7 +50,10 @@ app.rvtoStopOriginIsLocal = false;
 
 app.releaseRequestOriginIsLocal = false;
 
+app.keyboardInputTargetPanel = false;
+
 app.beforeShowingPanel = function(nextPanelId) {
+    app.keyboardInputTargetPanel = nextPanelId;
     switch (nextPanelId) {
         case app._panels.home:
             //app.startLiveClock();
@@ -84,6 +89,56 @@ app.beforeShowingPanel = function(nextPanelId) {
             app.showPanelAfterTimeout(2, app._panels.callConnected);
             break;
         default:
+            app.keyboardInputTargetPanel = false;
+    }
+}
+
+app.resolveKeyboardInput = function(key) {
+    if (app.keyboardInputTargetPanel === false) return 0;
+    //event.preventDefault();
+    if (key === 'l') { //YES or CONFIRM
+        switch (app.keyboardInputTargetPanel) {
+            case app._panels.home:
+                app.startCall();
+                break;
+            case app._panels.driverWarning: 
+                app.answerDriverAlert(true);
+                break;
+            case app._panels.rvtoConfirmStart: 
+                app.grantRTVO(true);
+                break;
+            case app._panels.rvtoConfirmEnd: 
+                app.confirmStopRTVO(true);
+                break;
+            default:
+                console.log('Key [' + key + '] is not assigned to a function in panel "' + app.keyboardInputTargetPanel + '"');
+        }
+    } else if (key === 'j') { // NO or CANCEL or ABORT
+        switch(app.keyboardInputTargetPanel) {
+            case app._panels.driverWarning: 
+                app.answerDriverAlert(false);
+                break;
+            case app._panels.driverEmergency:
+                app.dismissEmergency();
+                break;
+            case app._panels.callConnecting: 
+            case app._panels.callConnected:             
+                app.cancelCall();
+                break;
+            case app._panels.rvtoConfirmStart: 
+                app.grantRTVO(false);
+                break;
+            case app._panels.rvtoActive: 
+                app.stopRVTOLocally();
+                break;
+            case app._panels.rvtoConfirmEnd: 
+                app.confirmStopRTVO(false);
+                break;
+            default:
+                console.log('Key [' + key + '] is not assigned to a function in panel "' + app.keyboardInputTargetPanel + '"');
+        }
+    } else {
+        //console.log('Key [' + key + '] is not assigned to a function');
     }
 }
 
@@ -103,11 +158,21 @@ app.initClientModule = function() {
     $('.v_onlyIAV2').hide();
     $('.v_onlyS' + app.sNr).show();
     $('.v_onlyIAV' + app.iavNr).show();*/
+    //Bind keyboard 
+    document.addEventListener('keyup', function (event) {
+        app.resolveKeyboardInput(event.key);
+    });
+
+
     //Get sound objects
     app._sounds.alert = document.getElementById('sound_alert');
     app._sounds.count = document.getElementById('sound_count');
+    app._sounds.tts_driverAlert = document.getElementById('tts_driverAlert');
+    app._sounds.tts_emergency_long = document.getElementById('tts_emergency_long');
     app._sounds.alert.load();
     app._sounds.count.load();
+    app._sounds.tts_driverAlert.load();
+    app._sounds.tts_emergency_long.load();
     //Connect to the signalServer
     var wsUrl = "ws://" + location.hostname + ":8081";
     ws.connect(wsUrl, app.handleServerSignal);
@@ -129,8 +194,6 @@ app.dismissEmergency = function() {
     app.sendSignal(app._signal.out.dismissEmergency);
     app.showHomePanel();
 }
-
-
 
 app.startCall = function() {
     app.sendSignal(app._signal.out.startCall);
@@ -174,10 +237,12 @@ app.handleServerSignal = function(signal) {
             break;
         case app._signal.inb.launchAlert:
             app.showPanel(app._panels.driverWarning);
+            app._sounds.tts_driverAlert.play();
             break;
         case app._signal.inb.launchEmergency:
             app.emergencyState = true;
             app.showPanel(app._panels.driverEmergency);
+            app._sounds.tts_emergency_long.play();
             break;
         case app._signal.inb.callConnected:
             app.showPanel(app._panels.callConnected);
@@ -249,3 +314,4 @@ app.stopLiveClock = function() {
 app.updateLiveClock = function() {
     $('.ui_liveClock').html(app.getFormattedTime(0));
 }
+
