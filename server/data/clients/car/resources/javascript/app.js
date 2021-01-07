@@ -41,7 +41,12 @@ app._sounds = {
     alert: null, //alert sound used for attention grabbing
     count: null, //warning sound used for countdown
     tts_driverAlert: null,
-    tts_emergency_long: null
+    tts_emergency_long: null,
+    call_connected: null,
+    call_connecting: null,
+    call_disconnected: null,
+    carui_alert: null,
+    carui_countdown: null
 }
 
 app.emergencyState = false;
@@ -63,16 +68,15 @@ app.beforeShowingPanel = function(nextPanelId) {
             break;
         case app._panels.loader:
             break;
-        case app._panels.driverWarning: 
-            app._sounds.alert.play();
+        case app._panels.driverWarning:   
             break;
         case app._panels.driverEmergency:
-            app._sounds.alert.play();
-            //TODO: Start countound for autodconnect here
             break;
-        case app._panels.callConnecting: break;
+        case app._panels.callConnecting: 
+            break;
             //app._sounds.phoneDialing.play();
-        case app._panels.callConnected: break;
+        case app._panels.callConnected: 
+            break;
             //app._sounds.phoneConnected.play();
         case app._panels.rvtoConfirmStart: break;
         case app._panels.rvtoActive: break;
@@ -122,7 +126,7 @@ app.resolveKeyboardInput = function(key) {
                 app.dismissEmergency();
                 break;
             case app._panels.callConnecting: 
-            case app._panels.callConnected:             
+            case app._panels.callConnected:            
                 app.cancelCall();
                 break;
             case app._panels.rvtoConfirmStart: 
@@ -169,10 +173,21 @@ app.initClientModule = function() {
     app._sounds.count = document.getElementById('sound_count');
     app._sounds.tts_driverAlert = document.getElementById('tts_driverAlert');
     app._sounds.tts_emergency_long = document.getElementById('tts_emergency_long');
+    app._sounds.call_connected = document.getElementById('call_connected');
+    app._sounds.call_connecting = document.getElementById('call_connecting');
+    app._sounds.call_disconnected = document.getElementById('call_disconnected');
+    app._sounds.carui_countdown = document.getElementById('carui_countdown');
+    app._sounds.carui_alert = document.getElementById('carui_alert');
     app._sounds.alert.load();
     app._sounds.count.load();
     app._sounds.tts_driverAlert.load();
     app._sounds.tts_emergency_long.load();
+    app._sounds.call_connected.load();
+    app._sounds.call_connecting.load();
+    app._sounds.call_disconnected.load();
+    app._sounds.carui_countdown.load();
+    app._sounds.carui_alert.load();
+    
     //Connect to the signalServer
     var wsUrl = "ws://" + location.hostname + ":8081";
     ws.connect(wsUrl, app.handleServerSignal);
@@ -181,6 +196,7 @@ app.initClientModule = function() {
 }
 
 app.answerDriverAlert = function(bool_wantsAssistance) {
+    app._sounds.tts_driverAlert.pause();
     if (bool_wantsAssistance) {
         app.startCall();
     } else {
@@ -191,16 +207,19 @@ app.answerDriverAlert = function(bool_wantsAssistance) {
 
 app.dismissEmergency = function() {
     app.emergencyState = false;
+    app._sounds.tts_emergency_long.pause();
     app.sendSignal(app._signal.out.dismissEmergency);
     app.showHomePanel();
 }
 
 app.startCall = function() {
     app.sendSignal(app._signal.out.startCall);
+    app.dialPhone();
     app.showPanel(app._panels.callConnecting);
 }
 
 app.cancelCall = function() {
+    app.disconnectPhone();
     app.sendSignal(app._signal.out.stopCall);
     app.showHomePanel();
 }
@@ -231,27 +250,36 @@ app.confirmStopRTVO = function(bool) {
 }
 
 app.handleServerSignal = function(signal) {
+    app._sounds.tts_driverAlert.pause();
+    app._sounds.tts_emergency_long.pause();
     switch (signal) {
         case app._signal.inb.reload:
             app.reload();
             break;
         case app._signal.inb.launchAlert:
-            app.showPanel(app._panels.driverWarning);
+            //app._sounds.carui_alert.play();
+            app._sounds.tts_driverAlert.currentTime = 0;
             app._sounds.tts_driverAlert.play();
+            app.showPanel(app._panels.driverWarning);
             break;
         case app._signal.inb.launchEmergency:
             app.emergencyState = true;
-            app.showPanel(app._panels.driverEmergency);
+            //app._sounds.carui_alert.play();
+            app._sounds.tts_emergency_long.currentTime = 0;
             app._sounds.tts_emergency_long.play();
+            app.showPanel(app._panels.driverEmergency);
             break;
         case app._signal.inb.callConnected:
+            app.connectPhone();
             app.showPanel(app._panels.callConnected);
             break;
         case app._signal.inb.rvtoRequest_start:
+            app._sounds.carui_alert.play();
             app.showPanel(app._panels.rvtoConfirmStart);
             break;
         case app._signal.inb.rvtoRequest_end:
             app.rvtoStopOriginIsLocal = false;
+            app._sounds.carui_alert.play();
             app.showPanel(app._panels.rvtoConfirmEnd);
             break;
         case app._signal.inb.rvtoConfirm_start:
@@ -275,8 +303,10 @@ app.startTimer = function(tInSeconds, enableSound = true) {
     var tInSecondsLeft = tInSeconds;
     $(".appTimer").html(tInSecondsLeft);
     if (tInSeconds == 5 && enableSound) {
-        app._sounds.count.currentTime = 6;
-        app._sounds.count.play();
+        //app._sounds.count.currentTime = 6;
+        //app._sounds.count.play();
+        app._sounds.carui_countdown.carui = 0;
+        app._sounds.carui_countdown.play();
     } else console.log('Timer !=5 sec. Will not play countdown sound');
     var countdown = setInterval(function() {
         if (tInSecondsLeft <= 0) {
@@ -315,3 +345,22 @@ app.updateLiveClock = function() {
     $('.ui_liveClock').html(app.getFormattedTime(0));
 }
 
+
+
+app.connectPhone = function() {
+    app._sounds.call_connecting.pause();
+    app._sounds.call_connected.currentTime = 0.325;
+    app._sounds.call_connected.play();
+},
+
+app.dialPhone = function() {
+    app._sounds.call_connecting.loop = true;
+    app._sounds.call_connecting.currentTime = 0.14;
+    app._sounds.call_connecting.play();
+},
+
+app.disconnectPhone = function() {
+    app._sounds.call_connecting.pause();
+    app._sounds.call_disconnected.currentTime = 0.5;
+    app._sounds.call_disconnected.play();
+}
